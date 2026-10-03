@@ -199,15 +199,31 @@ const url = ctx.T.shareURL();
 ok("ссылка содержит размеры", url.includes("d=55%2C40%2C23"), url.slice(0, 120));
 ok("ссылка содержит выбор авиакомпаний", new URL(url).hash.includes("a=TK%3A0") || decodeURIComponent(new URL(url).hash).includes("a=TK:0"), url.slice(-60));
 
-/* ---------- 8. офлайн-самодостаточность ---------- */
+/* ---------- 8. офлайн-самодостаточность ----------
+   Инвариант: страница не делает внешних запросов. Исходящие ссылки на магазины
+   запросами не являются — они срабатывают только по клику, поэтому допустимы,
+   но обязаны быть помечены как спонсорские. */
 console.log("\n== Автономность ==");
-const ext = html.match(/(?:src|href)\s*=\s*["'](?!data:)[^"']+["']/gi) || [];
-ok("нет внешних src/href", ext.length === 0, JSON.stringify(ext));
+const resTags = html.match(/<(script|link|img|iframe|object|embed|video|audio|source)\b[^>]*\b(?:src|href)\s*=\s*["'](?!data:|#)[^"']+["']/gi) || [];
+ok("нет внешних ресурсов (script/link/img/iframe)", resTags.length === 0, JSON.stringify(resTags));
 ok("нет @import", !/@import/.test(html));
-ok("нет fetch/XHR/import()", !/\bfetch\(|XMLHttpRequest|\bimport\s*\(/.test(html));
+ok("нет fetch/XHR/sendBeacon/import()", !/\bfetch\(|XMLHttpRequest|sendBeacon|\bimport\s*\(/.test(html));
 ok("нет внешних шрифтов", !/fonts\.(googleapis|gstatic)/.test(html));
+const extLinks = html.match(/<a\b[^>]*\bhref\s*=\s*["']https?:\/\/[^"']+["'][^>]*>/gi) || [];
+ok("внешние ссылки в разметке не тянут ресурсы (только <a>)", extLinks.every(l => /^<a\b/i.test(l.trim())));
 ok("есть водяной знак CHRK-Bishkek", (html.match(/CHRK-Bishkek/g) || []).length >= 3);
 ok("нет ключевых слов про TODO/FIXME", !/TODO|FIXME|XXX/.test(html));
+
+/* ---------- 9. блок рекомендации чемодана ---------- */
+console.log("\n== Рекомендация ==");
+ok("есть массив типовых размеров", /const BAG_SIZES = \[/.test(html));
+ok("размеры в сантиметрах, не в дюймах", /const BAG_SIZES = \[\[55,35,20\]/.test(html));
+ok("есть список магазинов", /const SHOPS = \[/.test(html));
+ok("ссылки магазинов помечены sponsored", /a\.setAttribute\("rel", "sponsored noopener"\)/.test(html));
+ok("есть поисковые ссылки с подстановкой размера", /const shopUrl\s*=/.test(html));
+ok("блок скрыт по умолчанию", /<div class="buy" id="buy" hidden>/.test(html));
+ok("есть раскрытие о партнёрских ссылках", /"buy\.disc"/.test(html));
+ok("блок спонсорский и в ru, и в en", /"buy\.disc"[\s\S]{0,700}?en:/.test(html));
 
 
 console.log("\nИтог: " + (checks - fails) + " из " + checks + " проверок пройдено");

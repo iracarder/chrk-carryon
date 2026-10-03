@@ -161,6 +161,16 @@ select.opts{margin:0 11px 9px;max-width:100%;font-size:13px;padding:7px 9px}
 .sizer .cap{font-size:12px;color:var(--mut);margin-top:6px;font-variant-numeric:tabular-nums}
 .advice{margin:12px 0 0;font-size:13.5px;padding:10px 12px;border-radius:10px;background:color-mix(in srgb,var(--acc) 6%,var(--card));border:1px solid var(--line)}
 .advice b{color:var(--acc2)}
+.buy{margin-top:14px;padding:12px 14px;border-radius:10px;border:1px solid var(--line);
+     background:color-mix(in srgb,var(--acc) 5%,var(--card));font-size:13.5px}
+.buy[hidden]{display:none}
+.buy p{margin:0 0 8px}
+.buy .rec{font-weight:600}
+.buy .shops{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 8px}
+.buy .shops a{display:inline-block;padding:6px 11px;border-radius:8px;font-size:13px;
+     text-decoration:none;border:1px solid var(--line);background:var(--card);color:var(--acc)}
+.buy .shops a:hover{border-color:var(--acc)}
+.buy .disc{margin:0;color:var(--mut);font-size:12px;line-height:1.45}
 @media (max-width:520px){.bar{grid-template-columns:44px 1fr 82px}}
 footer{padding:18px 0 34px;color:var(--mut);font-size:12.5px}
 footer .wm-badge{font:700 12px/1 ui-monospace,monospace;letter-spacing:.08em;color:var(--acc)}
@@ -253,6 +263,7 @@ footer .wm-badge{font:700 12px/1 ui-monospace,monospace;letter-spacing:.08em;col
     </div>
     <div class="tally" id="tally" aria-live="polite"></div>
     <div id="list"></div>
+    <div class="buy" id="buy" hidden></div>
   </section>
 
   <section class="card" id="viz">
@@ -271,6 +282,7 @@ footer .wm-badge{font:700 12px/1 ui-monospace,monospace;letter-spacing:.08em;col
   <p><span class="wm-badge">CHRK-Bishkek</span> — <span data-i18n="foot.1">инструмент собран вручную, данные правил проверены по сайтам авиакомпаний.</span> <span id="today"></span></p>
   <p data-i18n="foot.2">Правила перевозчиков меняются, лоукостеры часто меняют их по тарифам и типам самолётов. Это не гарантия и не baggage approval: перед вылетом сверься с сайтом авиакомпании и со своим билетом. Превышение размеров на трапе обычно означает доплату или сдачу сумки в багаж.</p>
   <p data-i18n="foot.3">Никакой аналитики, куки и внешних запросов — всё считается в браузере, страница работает офлайн.</p>
+  <p data-i18n="foot.4">Исходный код открыт: github.com/iracarder/chrk-carryon. Нашёл у перевозчика другие нормы — правь массив AIRLINES и присылай пул-реквест.</p>
 </footer>
 
 <div class="toast" id="toast"></div>
@@ -536,6 +548,23 @@ const PRESETS = [
   { label:"Азиатский 56×36×23", labelEn:"Asian 56×36×23", dims:[56,36,23] }
 ];
 
+/* Типовые габариты, из которых выбираем рекомендацию. Считаем проход по тем же правилам,
+   что и основная проверка: строгое «ok» без запаса, «warn» впритык проходом не считаем. */
+const BAG_SIZES = [[55,35,20],[55,40,20],[55,40,23],[55,40,25],[56,45,25]];
+
+/* Магазины для блока рекомендации. Это обычные поисковые ссылки: запрос подставляется
+   по рекомендованному размеру. Чтобы они стали партнёрскими, добавь параметры выплат
+   в base — см. README, раздел «Партнёрские ссылки». */
+const SHOPS = [
+  { key:"ozon",   ru:"Ozon",              en:"Ozon",            langs:["ru"], q:"чемодан",       base:"https://www.ozon.ru/search/?text=" },
+  { key:"ym",     ru:"Яндекс Маркет",     en:"Yandex Market",   langs:["ru"], q:"чемодан",       base:"https://market.yandex.ru/search/?text=" },
+  { key:"wb",     ru:"Wildberries",       en:"Wildberries",     langs:["ru"], q:"чемодан",       base:"https://www.wildberries.ru/catalog/0/search.aspx?search=" },
+  { key:"amazon", ru:"Amazon",            en:"Amazon",          langs:["en"], q:"carry on luggage", base:"https://www.amazon.com/s?k=" },
+  { key:"ebay",   ru:"eBay",              en:"eBay",            langs:["en"], q:"carry on luggage", base:"https://www.ebay.com/sch/i.html?_nkw=" }
+];
+const shopName = s => (S.lang === "en" ? (s.en || s.ru) : s.ru);
+const shopUrl  = (s, dims) => s.base + encodeURIComponent(s.q + " " + dims.join("x"));
+
 const AXES_RU = ["длина","ширина","высота"];
 const AXES_EN = ["length","width","height"];
 const S = { bag:[null,null,null], bw:null, pi:[null,null,null], pw:null, piOn:false,
@@ -584,6 +613,15 @@ const I18N = {
                        en:"Carrier rules change, and low-cost airlines often change them per fare and aircraft type. This is not a guarantee and not baggage approval: check the airline website and your ticket before flying. Oversized bags at the gate usually mean a fee or a checked bag." },
   "foot.3":          { ru:"Никакой аналитики, куки и внешних запросов — всё считается в браузере, страница работает офлайн.",
                        en:"No analytics, no cookies, no external requests — everything is computed in the browser and the page works offline." },
+  "foot.4":          { ru:"Исходный код открыт: github.com/iracarder/chrk-carryon. Нашёл у перевозчика другие нормы — правь массив AIRLINES и присылай пул-реквест.",
+                       en:"Source is open: github.com/iracarder/chrk-carryon. Found different limits on an airline page? Edit the AIRLINES array and send a pull request." },
+
+  /* рекомендация чемодана */
+  "buy.why":         { ru:"Сумка не проходит у {bad} из {tot}. Если чемодан ещё не куплен — размер {dims} подходит у {good} из них по габаритам. Вес и правила по тарифу сверьте со своим билетом.",
+                       en:"This bag does not fit {bad} of {tot}. If you have not bought a suitcase yet, {dims} fits {good} of them by size. Check weight and fare rules against your ticket." },
+  "buy.links":       { ru:"Посмотреть сумки размера {dims}:", en:"See bags sized {dims}:" },
+  "buy.disc":        { ru:"Это партнёрские ссылки: нам могут заплатить за переход, цена от этого не меняется. Проверь размеры самостоятельно — вердикт выше считается по опубликованным нормам, а не по тому, что тебе продадут.",
+                       en:"These are affiliate links: we may get paid for the click, and the price does not change because of it. Check the measurements yourself — the verdict above comes from the published limits, not from what gets sold to you." },
 
   /* вердикты и счётчик */
   "v.ok":            { ru:"подходит", en:"fits" },
@@ -858,6 +896,7 @@ if (q && !((a.name + " " + (a.nameEn || "")).toLowerCase().includes(q) || a.code
   if (!shown) list.innerHTML = '<p class="hint">' + esc(t("none")) + "</p>";
 
   renderTally(counts);
+  renderBuy();
   renderViz();
   drawWatermark();
 }
@@ -1000,6 +1039,61 @@ function verdictText(res){
   if (res.state === "warn") return t("v.warn");
   if (res.state === "na") return t("v.na");
   return t("v.ok");
+}
+
+/* ---------------- рекомендация чемодана ----------------
+   Показываем блок только когда сумка где-то реально не проходит (жёлтый «впритык» не считаем):
+   это момент, когда человек уже знает, что сумка велика, и ищет чемодан подходящего размера. */
+function renderBuy(){
+  const box = $("buy");
+  const opts = [];
+  let bad = 0;
+  for (const a of AIRLINES){
+    if (!Object.prototype.hasOwnProperty.call(S.sel, a.code)) continue;
+    const opt = a.opts[clamp(S.sel[a.code] | 0, 0, a.opts.length - 1)];
+    if (!opt.dims || !hasAll(S.bag)) continue;
+    opts.push(opt);
+    if (checkDims(S.bag, opt.dims, S.tol, []) === "no") bad++;
+  }
+  /* для каждого типового размера — сколько выбранных норм он проходит; берём самый мелкий из лучших.
+     Считаем «не no», а строгий «ok»: чемодан, купленный точно под норму, — нормальная покупка,
+     а не риск. Строгий запас важен для мягкой набитой сумки пассажира, но не для нового жёсткого чемодана. */
+  let best = null;
+  for (const cand of BAG_SIZES){
+    let n = 0;
+    for (const opt of opts) if (checkDims(cand, opt.dims, 0, []) !== "no") n++;
+    if (!best || n > best.n) best = { n:n, d:cand };
+  }
+  const tot = opts.length;
+  if (!tot || !bad || !best){ box.hidden = true; box.textContent = ""; return; }
+
+  const dims = best.d.join("×") + " " + t("cm");
+  box.hidden = false;
+  box.textContent = "";
+
+  const p1 = document.createElement("p");
+  p1.innerHTML = esc(t("buy.links", { dims:dims }));
+  const row = document.createElement("p");
+  row.className = "shops";
+  for (const s of SHOPS){
+    if (s.langs.indexOf(S.lang) < 0) continue;
+    const a = document.createElement("a");
+    a.setAttribute("href", shopUrl(s, best.d));
+    a.setAttribute("target", "_blank");
+    a.setAttribute("rel", "sponsored noopener");
+    a.textContent = shopName(s);
+    row.appendChild(a);
+  }
+  const p2 = document.createElement("p");
+  p2.innerHTML = esc(t("buy.why", { bad:bad, tot:tot, dims:dims, good:best.n }));
+  const p3 = document.createElement("p");
+  p3.className = "disc";
+  p3.textContent = t("buy.disc");
+
+  box.appendChild(p2);
+  box.appendChild(p1);
+  box.appendChild(row);
+  box.appendChild(p3);
 }
 
 function renderTally(c){
