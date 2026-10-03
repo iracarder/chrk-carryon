@@ -1,0 +1,10 @@
+# служебное — генерируется при каждом запуске test-logic.js
+.syntax-check.js
+
+# каталог для выкладки на Netlify: копия index.html, в git не нужен
+dist/
+
+# система
+Thumbs.db
+desktop.ini
+.DS_Store

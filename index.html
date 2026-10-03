@@ -1,0 +1,1356 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Поместится ли в ручную кладь? — CHRK-Bishkek</title>
+<meta name="description" content="Проверь свою сумку и рюкзак по ручной клади 30 авиакомпаний: габариты, вес, сайзер. Работает офлайн, один файл, без регистрации. CHRK-Bishkek.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.92em' font-size='88'%3E%E2%9C%92%3C/text%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#f4f6f5; --fg:#12211e; --mut:#5d6f6b; --card:#ffffff; --line:#dfe5e3;
+  --acc:#0f766e; --acc2:#115e59; --ok:#15803d; --okbg:#e8f6ec;
+  --warn:#b45309; --warnbg:#fdf3e3; --no:#c02626; --nobg:#fdecec;
+  --shadow:0 1px 2px rgba(15,35,32,.06),0 8px 24px rgba(15,35,32,.06);
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#0d1514; --fg:#e6efec; --mut:#9db0ac; --card:#141f1e; --line:#25322f;
+    --acc:#2dd4bf; --acc2:#5eead4; --ok:#4ade80; --okbg:#10281a;
+    --warn:#fbbf24; --warnbg:#2a2010; --no:#f87171; --nobg:#2a1414;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--fg);position:relative;
+  font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+main,header,footer{position:relative;z-index:1}
+.wrap{max-width:1080px;margin:0 auto;padding:0 14px}
+/* ---------- водяной знак ---------- */
+.wm{position:absolute;top:0;left:0;right:0;z-index:0;overflow:hidden;pointer-events:none;user-select:none}
+.wm span{
+  position:absolute;white-space:nowrap;transform:rotate(-24deg);
+  font:800 30px/1 system-ui,sans-serif;letter-spacing:.14em;
+  color:var(--acc);opacity:.075;
+}
+/* ---------- шапка ---------- */
+header{padding:20px 0 4px}
+.brand{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.brand h1{font-size:23px;line-height:1.2;margin:0;letter-spacing:-.01em}
+.brand .sub{color:var(--mut);font-size:13px;margin-top:3px}
+.badge{
+  margin-left:auto;font:700 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:.08em;color:var(--acc);border:1.5px dashed var(--acc);
+  padding:6px 9px;border-radius:8px;opacity:.9;background:color-mix(in srgb,var(--acc) 7%,transparent);
+}
+.tip{
+  margin:14px 0 0;padding:10px 12px;border-radius:10px;font-size:13.5px;color:var(--mut);
+  background:color-mix(in srgb,var(--acc) 5%,var(--card));border:1px solid var(--line);
+}
+/* ---------- карточки ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:14px 0;box-shadow:var(--shadow)}
+.card > h2{font-size:16px;margin:0 0 4px;display:flex;align-items:center;gap:8px}
+.card > h2 .n{
+  font:700 11px/1 ui-monospace,monospace;background:var(--acc);color:#fff;
+  width:20px;height:20px;border-radius:6px;display:grid;place-items:center
+}
+.hint{color:var(--mut);font-size:13px;margin:0 0 12px}
+/* ---------- поля ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:10px}
+label{display:block;font-size:12px;color:var(--mut);margin-bottom:4px}
+input[type=number],input[type=search],select{
+  width:100%;padding:9px 10px;font:inherit;font-size:15px;color:var(--fg);
+  background:var(--bg);border:1.5px solid var(--line);border-radius:10px;
+}
+input[type=number]{-moz-appearance:textfield}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+input:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible{outline:2.5px solid var(--acc);outline-offset:2px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.seg{display:inline-flex;border:1.5px solid var(--line);border-radius:10px;overflow:hidden;background:var(--bg)}
+.seg button{border:0;background:transparent;color:var(--mut);font:600 13px/1 inherit;padding:9px 12px;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--acc);color:#fff}
+button.btn{
+  font:600 13.5px/1 inherit;padding:9px 12px;border-radius:10px;cursor:pointer;
+  border:1.5px solid var(--line);background:var(--card);color:var(--fg)
+}
+button.btn:hover{border-color:var(--acc)}
+button.btn.primary{background:var(--acc);border-color:var(--acc);color:#fff}
+button.btn.primary:hover{background:var(--acc2)}
+.chk{display:inline-flex;align-items:center;gap:7px;font-size:14px;cursor:pointer;user-select:none}
+.chk input{width:18px;height:18px;accent-color:var(--acc)}
+fieldset{border:0;padding:0;margin:0 0 12px;min-width:0}
+fieldset:last-of-type{margin-bottom:0}
+legend{font-size:13px;color:var(--mut);padding:0;margin-bottom:7px}
+/* ---------- пресеты ---------- */
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{
+  font:600 12.5px/1 inherit;padding:7px 10px;border-radius:999px;cursor:pointer;
+  border:1.5px solid var(--line);background:var(--bg);color:var(--mut)
+}
+.chip:hover{border-color:var(--acc);color:var(--acc)}
+/* ---------- сводка ---------- */
+.tally{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.tally div{
+  flex:1 1 130px;border-radius:11px;padding:9px 11px;border:1px solid var(--line);
+  background:var(--bg);font-size:13px
+}
+.tally b{display:block;font-size:21px;line-height:1.1;font-variant-numeric:tabular-nums}
+.tally .ok b{color:var(--ok)} .tally .warn b{color:var(--warn)} .tally .no b{color:var(--no)}
+/* ---------- авиакомпании ---------- */
+.region{margin:0 0 10px}
+.region > summary{
+  cursor:pointer;font:700 13px/1 inherit;color:var(--mut);letter-spacing:.04em;
+  text-transform:uppercase;padding:6px 0;list-style:none;display:flex;gap:8px;align-items:center
+}
+.region > summary::-webkit-details-marker{display:none}
+.region > summary::before{content:"▸";font-size:11px;transition:transform .15s}
+.region[open] > summary::before{transform:rotate(90deg)}
+.air{
+  border:1px solid var(--line);border-radius:12px;margin-bottom:8px;overflow:hidden;
+  background:var(--bg)
+}
+.air.on{border-color:color-mix(in srgb,var(--acc) 45%,var(--line))}
+.air.st-no{border-color:color-mix(in srgb,var(--no) 55%,var(--line));background:var(--nobg)}
+.air.st-warn{border-color:color-mix(in srgb,var(--warn) 50%,var(--line));background:var(--warnbg)}
+.air.st-focus{box-shadow:0 0 0 2px var(--acc) inset}
+.air > .top{display:flex;gap:10px;align-items:flex-start;padding:10px 11px 8px}
+.air .id{display:flex;align-items:center;gap:8px;min-width:0;flex:1 1 auto}
+.air .flag{font-size:19px;line-height:1}
+.air .nm{font-weight:650;font-size:14.5px;line-height:1.25}
+.air .code{font:700 11px/1 ui-monospace,monospace;color:var(--mut);border:1px solid var(--line);padding:3px 5px;border-radius:5px;background:var(--card)}
+.pill{
+  flex:0 0 auto;font:700 12px/1 inherit;padding:7px 9px;border-radius:999px;white-space:nowrap;
+  background:var(--card);border:1.5px solid var(--line);color:var(--mut)
+}
+.pill.ok{background:var(--okbg);border-color:var(--ok);color:var(--ok)}
+.pill.warn{background:var(--warnbg);border-color:var(--warn);color:var(--warn)}
+.pill.no{background:var(--nobg);border-color:var(--no);color:var(--no)}
+.air .lim{font:600 12px/1.4 ui-monospace,monospace;color:var(--mut);padding:0 11px 8px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.air .lim b{color:var(--fg)}
+.bars{padding:0 11px 10px;display:grid;gap:5px}
+.bar{display:grid;grid-template-columns:52px 1fr 92px;gap:8px;align-items:center;font-size:11.5px;color:var(--mut)}
+.bar .track{position:relative;height:9px;border-radius:5px;background:color-mix(in srgb,var(--fg) 12%,transparent);overflow:hidden}
+.bar .fill{position:absolute;inset:0 auto 0 0;border-radius:5px;background:var(--acc)}
+.bar.warn .fill{background:var(--warn)}
+.bar.no .fill{background:var(--no)}
+.bar.over .fill{background:repeating-linear-gradient(45deg,var(--no),var(--no) 4px,color-mix(in srgb,var(--no) 45%,transparent) 4px,color-mix(in srgb,var(--no) 45%,transparent) 8px)}
+.bar .num{text-align:right;font-variant-numeric:tabular-nums;font-family:ui-monospace,monospace;font-size:11px}
+.air .why{padding:0 11px 10px;margin:0}
+.air .why summary{cursor:pointer;font:600 12.5px/1 inherit;color:var(--mut)}
+.air .why p{margin:8px 0 0;font-size:13px;color:var(--fg)}
+.air .why .reasons{margin:8px 0 0;padding-left:18px;font-size:13px}
+.air .why .reasons li{margin-bottom:3px}
+.air .why a{color:var(--acc)}
+.air .why .src{font-size:12px;color:var(--mut);margin-top:8px}
+.conf{font:700 10.5px/1 inherit;padding:3px 6px;border-radius:5px;border:1px solid var(--line);color:var(--mut);vertical-align:middle}
+.conf.med{border-color:var(--warn);color:var(--warn)}
+.conf.low{border-color:var(--no);color:var(--no)}
+select.opts{margin:0 11px 9px;max-width:100%;font-size:13px;padding:7px 9px}
+.pi-line{font-size:12.5px;color:var(--mut);margin:7px 0 0}
+/* ---------- сайзер ---------- */
+.sizers{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:620px){.sizers{grid-template-columns:1fr}}
+.sizer{border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--bg)}
+.sizer h3{font-size:12.5px;margin:0 0 6px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.sizer svg{display:block;width:100%;height:auto;max-height:230px}
+.sizer .cap{font-size:12px;color:var(--mut);margin-top:6px;font-variant-numeric:tabular-nums}
+.advice{margin:12px 0 0;font-size:13.5px;padding:10px 12px;border-radius:10px;background:color-mix(in srgb,var(--acc) 6%,var(--card));border:1px solid var(--line)}
+.advice b{color:var(--acc2)}
+@media (max-width:520px){.bar{grid-template-columns:44px 1fr 82px}}
+footer{padding:18px 0 34px;color:var(--mut);font-size:12.5px}
+footer .wm-badge{font:700 12px/1 ui-monospace,monospace;letter-spacing:.08em;color:var(--acc)}
+.toast{
+  position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:9;
+  background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:999px;font:600 13.5px/1 inherit;
+  opacity:0;pointer-events:none;transition:opacity .2s
+}
+.toast.show{opacity:.94}
+@media print{.wm,.row,.hint{display:none}}
+</style>
+</head>
+<body>
+
+<div class="wm" id="wm" aria-hidden="true"></div>
+
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <div>
+        <h1 data-i18n="h1">Поместится ли это в мою ручную кладь?</h1>
+        <div class="sub" data-i18n="sub">Габариты, вес и сайзер для 30 авиакомпаний. Один файл, работает без интернета.</div>
+      </div>
+      <div class="seg" role="group" data-i18n-attr="aria-label:l10n.aria" aria-label="Язык" id="lang">
+        <button type="button" id="l-ru" aria-pressed="true">RU</button>
+        <button type="button" id="l-en" aria-pressed="false">EN</button>
+      </div>
+      <div class="badge">CHRK-Bishkek</div>
+    </div>
+    <p class="tip" data-i18n="tip">Меряй сумку <b>включая колёса и ручки</b> — именно так это делает рамка-сайзер. Сумку можно поворачивать, поэтому размеры сравниваются по убыванию: длина, ширина, высота. У лоукостеров правила почти всегда зависят от тарифа — выбирай свой вариант в выпадающем списке.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="card">
+    <h2><span class="n">1</span> <span data-i18n="s1.h">Что у тебя в сумках</span></h2>
+    <p class="hint" data-i18n="s1.hint">Можно в дюймах — пересчёт в сантиметры произойдёт сам.</p>
+
+    <div class="seg" role="group" data-i18n-attr="aria-label:units.aria" aria-label="Единицы">
+      <button type="button" id="u-cm" data-i18n="cm" aria-pressed="true">см</button>
+      <button type="button" id="u-in" aria-pressed="false">дюймы</button>
+    </div>
+
+    <fieldset style="margin-top:12px">
+      <legend data-i18n="presets.legend">Быстрые размеры</legend>
+      <div class="chips" id="presets"></div>
+    </fieldset>
+
+    <fieldset>
+      <legend data-i18n="bag.legend">Сумка в багажное отделение</legend>
+      <div class="grid">
+        <div><label for="b1" data-i18n="ax.l">Длина</label><input id="b1" type="number" inputmode="decimal" step="0.1" placeholder="55"></div>
+        <div><label for="b2" data-i18n="ax.w">Ширина</label><input id="b2" type="number" inputmode="decimal" step="0.1" placeholder="40"></div>
+        <div><label for="b3" data-i18n="ax.h">Высота</label><input id="b3" type="number" inputmode="decimal" step="0.1" placeholder="23"></div>
+        <div><label for="bw" data-i18n="w">Вес</label><input id="bw" type="number" inputmode="decimal" step="0.1" placeholder="8"></div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><label class="chk" style="margin:0"><input type="checkbox" id="pi-on"> <span data-i18n="pi.legend">Ещё есть маленькая сумка / рюкзак под сиденье</span></label></legend>
+      <div class="grid">
+        <div><label for="p1" data-i18n="ax.l">Длина</label><input id="p1" type="number" inputmode="decimal" step="0.1" placeholder="40" disabled></div>
+        <div><label for="p2" data-i18n="ax.w">Ширина</label><input id="p2" type="number" inputmode="decimal" step="0.1" placeholder="30" disabled></div>
+        <div><label for="p3" data-i18n="ax.h">Высота</label><input id="p3" type="number" inputmode="decimal" step="0.1" placeholder="20" disabled></div>
+        <div><label for="pw" data-i18n="w">Вес</label><input id="pw" type="number" inputmode="decimal" step="0.1" placeholder="3" disabled></div>
+      </div>
+      <p class="pi-line" id="pi-hint"></p>
+    </fieldset>
+
+    <div class="row">
+      <div>
+        <label for="tol" style="margin-bottom:6px"><span data-i18n="tol.label">Запас на сайзер:</span> <b id="tol-v">0</b> <span data-i18n="cm">см</span></label>
+        <input id="tol" type="range" min="0" max="2" step="0.5" value="0" style="width:190px;padding:0">
+      </div>
+      <button class="btn" type="button" id="share" data-i18n="btn.share">Скопировать ссылку</button>
+      <button class="btn" type="button" id="copy" data-i18n="btn.copy">Скопировать сводку</button>
+      <button class="btn" type="button" id="reset" data-i18n="btn.reset">Сбросить</button>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2><span class="n">2</span> <span data-i18n="s2.h">Результат по авиакомпаниям</span></h2>
+    <p class="hint" data-i18n="s2.hint">Галочками выбираешь, куда летишь. Нажми на строку авиакомпании — ниже появится сравнение с рамкой-сайзером.</p>
+    <div class="row" style="margin:0 0 12px">
+      <input type="search" id="q" data-i18n-attr="placeholder:search.ph" placeholder="Поиск: TK, Turkish, Pegasus…" style="flex:1 1 200px;max-width:320px">
+      <select id="region" style="flex:0 1 190px;max-width:220px"></select>
+      <button class="btn" type="button" id="all" data-i18n="btn.all">Выбрать все</button>
+      <button class="btn" type="button" id="none" data-i18n="btn.none">Снять все</button>
+    </div>
+    <div class="tally" id="tally" aria-live="polite"></div>
+    <div id="list"></div>
+  </section>
+
+  <section class="card" id="viz">
+    <h2><span class="n">3</span> <span data-i18n="s3.h">Сравнение с рамкой-сайзером</span></h2>
+    <p class="hint" id="viz-who"></p>
+    <div class="sizers">
+      <div class="sizer"><h3 data-i18n="sz.top">Сверху (вид сверху)</h3><div id="sz-top"></div><div class="cap" id="cap-top"></div></div>
+      <div class="sizer"><h3 data-i18n="sz.side">Сбоку</h3><div id="sz-side"></div><div class="cap" id="cap-side"></div></div>
+    </div>
+    <div class="advice" id="advice"></div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <p><span class="wm-badge">CHRK-Bishkek</span> — <span data-i18n="foot.1">инструмент собран вручную, данные правил проверены по сайтам авиакомпаний.</span> <span id="today"></span></p>
+  <p data-i18n="foot.2">Правила перевозчиков меняются, лоукостеры часто меняют их по тарифам и типам самолётов. Это не гарантия и не baggage approval: перед вылетом сверься с сайтом авиакомпании и со своим билетом. Превышение размеров на трапе обычно означает доплату или сдачу сумки в багаж.</p>
+  <p data-i18n="foot.3">Никакой аналитики, куки и внешних запросов — всё считается в браузере, страница работает офлайн.</p>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+/* ============================================================================
+   ДАННЫЕ. Правь этот массив, если правила авиакомпании изменились.
+   dims        — [длина, ширина, высота] в см, по убыванию; null = размеры не публикуются
+   linear      — максимум суммы трёх сторон в см (если авиакомпания проверяет именно сумму)
+   weight      — максимум кг на эту сумку; null = вес не ограничен / не опубликован
+   pieces      — сколько таких сумок можно взять
+   pi          — личный предмет под сиденье: {dims, weight, free:true если без числовых лимитов}
+   totalWeight — если задано: сумма весов обеих сумок не должна превышать это значение
+   onlyPi      — true: тариф не даёт сумку в багажное отделение, только маленькую под сиденье
+   conf        — high (сайт авиакомпании) / med (агрегатор или противоречие) / low (не проверено)
+   ========================================================================== */
+const DATA_CHECKED_RU = "октябрь 2026";
+const DATA_CHECKED = () => (S.lang === "en" ? "October 2026" : DATA_CHECKED_RU);
+
+const AIRLINES = [
+  { code:"TK", name:"Turkish Airlines", flag:"🇹🇷", region:"Ближний Восток", conf:"high",
+    src:"turkishairlines.com → Carry-on baggage",
+    opts:[{ label:"Эконом, любой тариф", labelEn:"Economy, any fare", dims:[55,40,23], weight:8, pieces:1,
+            pi:{ dims:[40,30,15], weight:4 } }],
+    note:"Бизнес-класс — две сумки по 8 кг. Личный предмет (до 4 кг) взвешивают отдельно от основной сумки. На регистрации сумку реально взвешивают, особенно в Стамбуле.",
+    noteEn:"Business class allows two bags of 8 kg. The personal item (up to 4 kg) is weighed separately from the main bag. At check-in the bag really is weighed, especially in Istanbul." },
+
+  { code:"PC", name:"Pegasus Airlines", flag:"🇹🇷", region:"Ближний Восток", conf:"high",
+    src:"flypgs.com → Baggage allowance",
+    opts:[
+      { label:"Light — только под сиденье", labelEn:"Light — underseat only", dims:null, onlyPi:true, pi:{ dims:[40,30,15], weight:3 } },
+      { label:"Saver / Saver Plus / Comfort Flex", labelEn:"Saver / Saver Plus / Comfort Flex", dims:[55,40,23], weight:8, pieces:1,
+        pi:{ dims:[40,30,15], weight:3 } }
+    ],
+    note:"Тариф Light не включает сумку в багажное отделение — только 3 кг под сиденьем. В части источников глубину указывают как 20 см вместо 23: если сумка 23 см, уточни правило до вылета.",
+    noteEn:"The Light fare does not include an overhead-bin bag — only 3 kg under the seat. Some sources give the depth as 20 cm instead of 23: if your bag is 23 cm deep, confirm the rule before departure." },
+
+  { code:"FZ", name:"flydubai", flag:"🇦🇪", region:"Ближний Восток", conf:"high",
+    src:"flydubai.com → Hand baggage",
+    opts:[{ label:"Эконом", labelEn:"Economy", dims:[55,38,20], weight:7, pieces:1,
+            pi:{ dims:[33,25,20] } }],
+    note:"Это один из самых узких сайзеров: ширина всего 38 см, глубина 20 см. Личный предмет 25×33×20 идёт в те же 7 кг, отдельно не взвешивается. Business — две сумки по 7 кг.",
+    noteEn:"One of the narrowest sizers: width is only 38 cm and depth 20 cm. The 25×33×20 personal item counts towards the same 7 kg and is not weighed separately. Business allows two bags of 7 kg." },
+
+  { code:"G9", name:"Air Arabia", flag:"🇦🇪", region:"Ближний Восток", conf:"high",
+    src:"airarabia.com → Hand baggage",
+    opts:[{ label:"Эконом", labelEn:"Economy", dims:[55,40,20], weight:7, pieces:1,
+            pi:{ dims:[33,25,20], weight:3 }, totalWeight:10 }],
+    note:"Суммарно до 10 кг на всю ручную кладь вместе с личным предметом и покупками duty-free. Размеры считаются вместе с колёсами и ручками.",
+    noteEn:"Up to 10 kg in total for all cabin baggage including the personal item and duty-free purchases. Dimensions are measured including wheels and handles." },
+
+  { code:"MS", name:"EgyptAir", flag:"🇪🇬", region:"Ближний Восток", conf:"med",
+    src:"egyptair.com → Carry-on baggage",
+    opts:[{ label:"Эконом", labelEn:"Economy", dims:[56,36,23], linear:115, weight:7, pieces:1,
+            pi:{ free:true } }],
+    note:"На сайте авиакомпании есть противоречие: в одном разделе 7 кг и 115 см, в другом 8 кг и 118 см. Ориентируйся на 7 кг / 115 см и сверяйся с билетом.",
+    noteEn:"The airline website contradicts itself: one section says 7 kg and 115 cm, another says 8 kg and 118 cm. Go with 7 kg / 115 cm and check your ticket." },
+
+  { code:"UL", name:"SalamAir", flag:"🇴🇲", region:"Ближний Восток", conf:"high",
+    src:"salamair.com → Baggage information",
+    opts:[
+      { label:"Бесплатно: ноутбук, документы", labelEn:"Free: laptop, documents", dims:[33,25,20], weight:5, onlyPi:true },
+      { label:"Trolley за доплату", labelEn:"Trolley for a fee", dims:[56,45,25], weight:10, pieces:1, pi:{ free:true } }
+    ],
+    note:"Бесплатная норма — только плоская сумка под сиденье до 5 кг. Нормальный чемодан покупается отдельно, и тогда лимит 10 кг.",
+    noteEn:"The free allowance is a flat underseat bag up to 5 kg. A proper suitcase is bought separately, and then the limit is 10 kg." },
+
+  { code:"XY", name:"flynas", flag:"🇸🇦", region:"Ближний Восток", conf:"high",
+    src:"flynas.com → Cabin baggage",
+    opts:[{ label:"Эконом", labelEn:"Economy", dims:[56,36,23], weight:7, pieces:1 }],
+    note:"Ширина 36 см — узко. Отдельный личный предмет на сайте не указан, дополнительные сумки платные.",
+    noteEn:"A 36 cm width is narrow. The site lists no separate personal item, and extra bags are paid." },
+
+  { code:"EK", name:"Emirates", flag:"🇦🇪", region:"Ближний Восток", conf:"high",
+    src:"emirates.com → Cabin baggage rules",
+    opts:[{ label:"Эконом, Premium Economy", labelEn:"Economy, Premium Economy", dims:[55,38,22], weight:7, pieces:1 }],
+    note:"Отдельный личный предмет не предусмотрен: только одна сумка 55×38×22 до 7 кг. Premium Economy — 10 кг. Business и First — два предмета суммарно 7 кг.",
+    noteEn:"There is no separate personal item: only one 55×38×22 bag up to 7 kg. Premium Economy is 10 kg. Business and First get two items totalling 7 kg." },
+
+  { code:"QR", name:"Qatar Airways", flag:"🇶🇦", region:"Ближний Восток", conf:"high",
+    src:"qatarairways.com → Baggage information",
+    opts:[{ label:"Эконом", labelEn:"Economy", dims:[50,37,25], weight:7, pieces:1 }],
+    note:"Самая короткая длина: 50 см — стандартный чемодан 55 см сюда не влезает никак. Business — два предмета до 15 кг.",
+    noteEn:"The shortest length here: 50 cm — a standard 55 cm suitcase simply will not fit. Business gets two items up to 15 kg." },
+
+  { code:"EY", name:"Etihad Airways", flag:"🇦🇪", region:"Ближний Восток", conf:"high",
+    src:"etihad.com → Baggage",
+    opts:[{ label:"Эконом", labelEn:"Economy", dims:[56,36,23], weight:7, pieces:1,
+            pi:{ dims:[39,23,19], weight:5 } }],
+    note:"Личный предмет до 39×23×19 см и 5 кг считается в тех же 7 кг. Business, First и The Residence — две сумки по 12 кг.",
+    noteEn:"The personal item up to 39×23×19 cm and 5 kg counts towards the same 7 kg. Business, First and The Residence get two bags of 12 kg." },
+
+  { code:"SU", name:"Аэрофлот", nameEn:"Aeroflot", flag:"🇷🇺", region:"СНГ", conf:"med",
+    src:"cabinsizer.com, airline-details.com (сайт авиакомпании отдаёт 503)",
+    srcEn:"cabinsizer.com, airline-details.com (the airline website returns 503)",
+    opts:[{ label:"Эконом / Комфорт", labelEn:"Economy / Comfort", dims:[55,40,25], weight:10, pieces:1 }],
+    note:"Если в самолёте не хватит места, сумку могут бесплатно отправить в багаж. Размер и вес личного предмета официально не опубликованы: у разных источников 5 кг и 80 см либо нет данных вовсе. Business — 15 кг.",
+    noteEn:"If the aircraft has no space left, the bag may be sent to the hold free of charge. The personal item's size and weight are not officially published: sources give either 5 kg and 80 cm, or no data at all. Business is 15 kg." },
+
+  { code:"LO", name:"Уральские авиалинии", nameEn:"Ural Airlines", flag:"🇷🇺", region:"СНГ", conf:"high",
+    src:"uralairlines.ru → Нормы бесплатного провоза багажа",
+    srcEn:"uralairlines.ru → Free baggage allowance rules",
+    opts:[{ label:"Эконом", labelEn:"Economy", dims:[55,40,25], weight:10, pieces:1,
+            pi:{ dims:null, linear:80, weight:3 } }],
+    note:"Габариты 55×40×25 действуют с 01.02.2026. Личный предмет — рюкзак или сумка, у которых сумма сторон не больше 80 см, до 3 кг. Business — 15 кг.",
+    noteEn:"The 55×40×25 dimensions apply from 01.02.2026. The personal item is a backpack or bag whose sides sum to no more than 80 cm, up to 3 kg. Business is 15 kg." },
+
+  { code:"KC", name:"Air Astana", flag:"🇰🇿", region:"СНГ", conf:"high",
+    src:"airastana.com → Carry-on baggage",
+    opts:[{ label:"Эконом: сумка + ноутбук", labelEn:"Economy: bag + laptop", dims:[56,45,25], weight:8, pieces:1,
+            pi:{ free:true }, totalWeight:8 }],
+    note:"8 кг — это суммарно на ручную кладь и ноутбук или сумку вместе. Сайзер очень большой, реальное ограничение — вес. Business — две сумки по 8 кг.",
+    noteEn:"The 8 kg covers the cabin bag plus the laptop or small bag combined. The sizer is very generous, so weight is the real limit. Business gets two bags of 8 kg." },
+
+  { code:"FS", name:"FlyArystan", flag:"🇰🇿", region:"СНГ", conf:"high",
+    src:"flyarystan.com → Hand baggage",
+    opts:[{ label:"Эконом", labelEn:"Economy", dims:[56,36,23], weight:7, pieces:1 }],
+    note:"С 01.03.2026 лимит поднят до 7 кг (раньше было 5 кг), за доплату — до 10 кг. Сайзер 56×36×23 довольно узкий.",
+    noteEn:"From 01.03.2026 the limit was raised to 7 kg (it used to be 5 kg); up to 10 kg for a fee. The 56×36×23 sizer is fairly narrow." },
+
+  { code:"YK", name:"Avia Traffic Company", flag:"🇰🇬", region:"СНГ", conf:"high",
+    src:"aviatraffic.kg → Baggage",
+    opts:[
+      { label:"Без багажа в багажном отделении", labelEn:"No checked baggage", dims:[55,40,20], weight:5, pieces:1 },
+      { label:"С зарегистрированным багажом", labelEn:"With checked baggage", dims:[55,40,20], weight:8, pieces:1 }
+    ],
+    note:"Клатчи, портфели и ноутбуки не взвешивают. Вес ручной клади не суммируется с багажом, при превышении — доплата по тарифу.",
+    noteEn:"Clutches, briefcases and laptops are not weighed. Cabin baggage weight is not combined with checked baggage; going over means paying the applicable fee." },
+
+  { code:"J2", name:"Azerbaijan Airlines (AZAL)", flag:"🇦🇿", region:"СНГ", conf:"high",
+    src:"azal.az → Hand baggage",
+    opts:[{ label:"Эконом", labelEn:"Economy", dims:[55,40,23], linear:118, weight:10, pieces:1,
+            pi:{ free:true } }],
+    note:"Сумма трёх сторон не больше 118 см — это отдельная проверка, к габаритам она не сводится. Дополнительная сумка для ноутбука без числовых лимитов. Premium Economy и Business — два предмета.",
+    noteEn:"The sum of the three sides must not exceed 118 cm — that is a separate check and does not follow from the dimensions. The extra laptop bag has no numeric limits. Premium Economy and Business get two items." },
+
+  { code:"A9", name:"Georgian Airways", flag:"🇬🇪", region:"СНГ", conf:"med",
+    src:"georgian-airways.com → Baggage information",
+    opts:[{ label:"Эконом (Light / Standard / Flexi)", labelEn:"Economy (Light / Standard / Flexi)", dims:null, linear:115, weight:8, pieces:1 }],
+    note:"Габариты поштучно не публикуются — только лимит суммы сторон 115 см и 8 кг, поэтому проверить можно лишь линейный размер. MyWay Airlines — отдельный перевозчик, его правила другие.",
+    noteEn:"Individual dimensions are not published — only a 115 cm sum-of-sides limit and 8 kg, so only the linear size can be checked. MyWay Airlines is a separate carrier with its own rules." },
+
+  { code:"7J", name:"Tajik Air", flag:"🇹🇯", region:"СНГ", conf:"low",
+    src:"tajikair.tj → Baggage",
+    opts:[{ label:"Эконом", labelEn:"Economy", dims:null, weight:null, pieces:1 }],
+    note:"Нормы не опубликованы: количество, вес и габариты указаны прямо в билете. Если летишь этим рейсом — звони в авиакомпанию или переспрашивай на регистрации заранее.",
+    noteEn:"No allowances are published: the number, weight and dimensions are given in the ticket itself. If you fly this route, call the airline or ask at check-in well in advance." },
+
+  { code:"OP", name:"Asky Airlines", flag:"🇹🇬", region:"Ближний Восток", conf:"med",
+    src:"flyasky.com → Essentials → Luggage",
+    opts:[{ label:"Эконом", labelEn:"Economy", dims:null, weight:7, pieces:1 }],
+    note:"Официально опубликован только вес — 7 кг в экономе (10 кг в бизнесе). Габаритов на сайте нет; размеры 55×40×20 в разделе про питомцев относятся к контейнеру для животного, а не к ручной клади.",
+    noteEn:"Only the weight is officially published — 7 kg in economy (10 kg in business). There are no dimensions on the site; the 55×40×20 sizes in the pets section refer to an animal carrier, not to cabin baggage." },
+
+  { code:"KL", name:"KLM", flag:"🇳🇱", region:"Европа", conf:"high",
+    src:"klm.com → Hand baggage allowance",
+    opts:[
+      { label:"Light / Basic — только под сиденье", labelEn:"Light / Basic — underseat only", dims:[40,30,15], onlyPi:true, weight:12 },
+      { label:"Standard / Flex — сумка + маленькая", labelEn:"Standard / Flex — bag + small bag", dims:[55,35,25], linear:115, weight:12, pieces:1,
+        pi:{ dims:[40,30,15] }, totalWeight:12 }
+    ],
+    note:"12 кг — на обе сумки вместе, причём лимит суммы сторон 115 см действует для каждой сумки. Размеры считаются вместе с ручками и колёсами. Business — 18 кг.",
+    noteEn:"The 12 kg is for both bags together, and the 115 cm sum-of-sides limit applies to each bag. Dimensions are measured including handles and wheels. Business is 18 kg." },
+
+  { code:"AF", name:"Air France", flag:"🇫🇷", region:"Европа", conf:"high",
+    src:"airfrance.com → Bagage cabine",
+    opts:[
+      { label:"Light / Silver — только маленькая сумка", labelEn:"Light / Silver — small bag only", dims:null, onlyPi:true, pi:{ dims:[40,30,15] } },
+      { label:"Standard и выше — сумка + маленькая", labelEn:"Standard and above — bag + small bag", dims:[55,35,25], weight:12, pieces:1,
+        pi:{ dims:[40,30,15] }, totalWeight:12 }
+    ],
+    note:"12 кг на обе сумки вместе. Сумку в багажное отделение можно докупить онлайн или до 4 часов до вылета. Business — 18 кг.",
+    noteEn:"12 kg for both bags together. An overhead-bin bag can be bought online or up to 4 hours before departure. Business is 18 kg." },
+
+  { code:"LH", name:"Lufthansa", flag:"🇩🇪", region:"Европа", conf:"high",
+    src:"lufthansa.com → Carry-on baggage",
+    opts:[
+      { label:"Economy Basic — только ноутбук и сумка", labelEn:"Economy Basic — laptop and small bag only", dims:null, onlyPi:true, pi:{ dims:[40,30,15] } },
+      { label:"Economy Light / Comfort и выше", labelEn:"Economy Light / Comfort and above", dims:[55,40,23], weight:8, pieces:1, pi:{ dims:[40,30,15] } }
+    ],
+    note:"На тарифе Economy Basic в багажное отделение пускают только за доплату. На маршрутах в/из США и Канады действуют единые правила — проверь тариф в билете.",
+    noteEn:"On the Economy Basic fare an overhead-bin bag is allowed only for a fee. Unified rules apply on routes to and from the USA and Canada — check the fare on your ticket." },
+
+  { code:"FR", name:"Ryanair", flag:"🇮🇪", region:"Европа", conf:"high",
+    src:"help.ryanair.com → Bag Rules",
+    opts:[
+      { label:"Любой тариф — только под сиденье", labelEn:"Any fare — underseat only", dims:[40,30,20], weight:null, onlyPi:true },
+      { label:"Priority & 2 Cabin Bags", labelEn:"Priority & 2 Cabin Bags", dims:[55,40,20], weight:10, pieces:1,
+        pi:{ dims:[40,30,20] } }
+    ],
+    note:"Без Priority сумку в верхний отсек не возьмут: её отправят в багаж у трапа, а доплата у Ryanair самая высокая из лоукостеров. Официальный вес бесплатной маленькой сумки не указан — ночью лучше не ложить туда лёд.",
+    noteEn:"Without Priority the overhead bag is not accepted: it goes into the hold at the gate, and Ryanair's gate fee is the highest of the low-cost carriers. No official weight is given for the free small bag — avoid putting ice in it overnight." },
+
+  { code:"U2", name:"easyJet", flag:"🇬🇧", region:"Европа", conf:"high",
+    src:"easyjet.com → Help → Baggage",
+    opts:[
+      { label:"Включено в тариф", labelEn:"Included in the fare", dims:[45,36,20], weight:15, pieces:1 },
+      { label:"Большая сумка: Plus или доплата", labelEn:"Large bag: Plus or paid", dims:[56,45,25], weight:15, pieces:1, pi:{ free:true } }
+    ],
+    note:"До 15 кг на всю ручную кладь, включая маленькую сумку. Размеры считаются вместе с колёсами и ручками, сайзер на трапе строгий.",
+    noteEn:"Up to 15 kg for all cabin baggage including the small bag. Dimensions are measured including wheels and handles, and the gate sizer is strict." },
+
+  { code:"WZ", name:"Wizz Air", flag:"🇭🇺", region:"Европа", conf:"high",
+    src:"wizzair.com → Baggage allowance",
+    opts:[
+      { label:"Базовый тариф — под сиденье", labelEn:"Basic fare — underseat", dims:[40,30,20], weight:null, onlyPi:true },
+      { label:"WIZZ Priority — сумка в багажное отделение", labelEn:"WIZZ Priority — overhead-bin bag", dims:[55,40,23], weight:10, pieces:1,
+        pi:{ dims:[40,30,20] }, totalWeight:10 }
+    ],
+    note:"До 10 кг на обе сумки вместе. Колодёса и ручки в размер не входят: Wizz добавляет к замеру до 5 см, поэтому по факту запас меньше, чем кажется.",
+    noteEn:"Up to 10 kg for both bags together. Wheels and handles are excluded: Wizz adds up to 5 cm to the measurement, so the real margin is smaller than it looks." },
+
+  { code:"BA", name:"British Airways", flag:"🇬🇧", region:"Европа", conf:"high",
+    src:"britishairways.com → Baggage essentials",
+    opts:[{ label:"Эконом, любой тариф", labelEn:"Economy, any fare", dims:[56,45,25], weight:23, pieces:1,
+            pi:{ dims:[40,30,15] } }],
+    note:"На сайте указано «до 23 кг на каждый предмет» — на практике сумку почти всегда просят положить на стенд и отправляют в багаж. Не рассчитывай на это, ориентируйся на 10 кг.",
+    noteEn:"The site says \"up to 23 kg per item\" — in practice the bag is almost always put on the stand and checked. Do not rely on it; plan for 10 kg." },
+
+  { code:"IB", name:"Iberia", flag:"🇪🇸", region:"Европа", conf:"high",
+    src:"iberia.com → Hand luggage",
+    opts:[{ label:"Эконом", labelEn:"Economy", dims:[56,40,25], weight:10, pieces:1,
+            pi:{ dims:[30,40,15] } }],
+    note:"10 кг — на всю ручную кладь вместе с аксессуаром 30×40×15. На региональных рейсах (Regional Air Nostrum) правила могут быть жёстче.",
+    noteEn:"The 10 kg covers all cabin baggage including the 30×40×15 accessory. On regional flights (Regional Air Nostrum) the rules can be stricter." },
+
+  { code:"AY", name:"Finnair", flag:"🇫🇮", region:"Европа", conf:"high",
+    src:"finnair.com → Carry-on baggage",
+    opts:[
+      { label:"Economy Superlight — только маленькая", labelEn:"Economy Superlight — small bag only", dims:[40,30,15], onlyPi:true, weight:8 },
+      { label:"Economy Light и выше", labelEn:"Economy Light and above", dims:[55,40,23], weight:8, pieces:1,
+        pi:{ dims:[40,30,15] }, totalWeight:8 }
+    ],
+    note:"До 8 кг на обе сумки вместе. Business — 12 кг.",
+    noteEn:"Up to 8 kg for both bags together. Business is 12 kg." },
+
+  { code:"A3", name:"Aegean Airlines", flag:"🇬🇷", region:"Европа", conf:"high",
+    src:"aegeanair.com → Baggage allowance",
+    opts:[
+      { label:"Light — 1 предмет (ATR)", labelEn:"Light — 1 item (ATR)", dims:[55,40,23], weight:8, pieces:1 },
+      { label:"Light — 1 предмет (Airbus)", labelEn:"Light — 1 item (Airbus)", dims:[56,45,25], weight:8, pieces:1 },
+      { label:"Flex / ComfortFlex / Family (ATR)", labelEn:"Flex / ComfortFlex / Family (ATR)", dims:[55,40,23], weight:8, pieces:1, pi:{ free:true } },
+      { label:"Flex / ComfortFlex / Family (Airbus)", labelEn:"Flex / ComfortFlex / Family (Airbus)", dims:[56,45,25], weight:8, pieces:1, pi:{ free:true } }
+    ],
+    note:"Габариты зависят от типа самолёта: ATR 55×40×23, Airbus 56×45×25. На тарифе Light дают один предмет: либо сумка, либо аксессуар. Если отсек полный, сумку иногда бесплатно отправляют в багаж у трапа.",
+    noteEn:"Dimensions depend on the aircraft type: ATR 55×40×23, Airbus 56×45×25. The Light fare gives one item: either a bag or an accessory. If the bin is full, the bag is sometimes checked free of charge at the gate." },
+
+  { code:"6E", name:"IndiGo", flag:"🇮🇳", region:"Азия", conf:"high",
+    src:"goindigo.in → Cabin baggage",
+    opts:[{ label:"Эконом", labelEn:"Economy", dims:[55,35,25], linear:115, weight:7, pieces:1,
+            pi:{ dims:null, weight:3 } }],
+    note:"Сумма трёх сторон не больше 115 см, габариты считаются вместе с ручками и колёсами. В кодешейринге на маршрутах AU, EU и US лимит 8 кг.",
+    noteEn:"The sum of the three sides must not exceed 115 cm, and dimensions are measured including handles and wheels. In codeshare on AU, EU and US routes the limit is 8 kg." }
+];
+
+const PRESETS = [
+  { label:"Стандарт 55×40×23", labelEn:"Standard 55×40×23", dims:[55,40,23] },
+  { label:"Стройный 55×40×20", labelEn:"Slim 55×40×20", dims:[55,40,20] },
+  { label:"Под сиденье 40×30×20", labelEn:"Underseat 40×30×20", dims:[40,30,20] },
+  { label:"Бизнес 56×45×25", labelEn:"Business 56×45×25", dims:[56,45,25] },
+  { label:"Узкий 55×35×25", labelEn:"Narrow 55×35×25", dims:[55,35,25] },
+  { label:"Азиатский 56×36×23", labelEn:"Asian 56×36×23", dims:[56,36,23] }
+];
+
+const AXES_RU = ["длина","ширина","высота"];
+const AXES_EN = ["length","width","height"];
+const S = { bag:[null,null,null], bw:null, pi:[null,null,null], pw:null, piOn:false,
+            unit:"cm", tol:0, sel:{}, focus:null, region:"", lang:"ru" };
+
+/* ============================================================================
+   ПЕРЕВОДЫ. Ключ → {ru, en}. Русский текст в разметке дублируется здесь —
+   это проверяется тестом: значение ru должно совпадать с тем, что в HTML.
+   ========================================================================== */
+const I18N = {
+  "doc.title":       { ru:"Поместится ли в ручную кладь? — CHRK-Bishkek", en:"Will it fit in my carry-on? — CHRK-Bishkek" },
+  "doc.desc":        { ru:"Проверь свою сумку и рюкзак по ручной клади 30 авиакомпаний: габариты, вес, сайзер. Работает офлайн, один файл, без регистрации. CHRK-Bishkek.",
+                       en:"Check your bag and backpack against the carry-on rules of 30 airlines: size, weight, sizer. Works offline, single file, no signup. CHRK-Bishkek." },
+  "h1":              { ru:"Поместится ли это в мою ручную кладь?", en:"Will this fit in my carry-on?" },
+  "sub":             { ru:"Габариты, вес и сайзер для 30 авиакомпаний. Один файл, работает без интернета.", en:"Size, weight and sizer for 30 airlines. One file, works without internet." },
+  "tip":             { ru:"<b>Меряй сумку вместе с колёсами и ручками</b> — именно так это делает рамка-сайзер. Сумку можно поворачивать, поэтому размеры сравниваются по убыванию: длина, ширина, высота. У лоукостеров правила почти всегда зависят от тарифа — выбирай свой вариант в выпадающем списке.",
+                       en:"<b>Measure the bag including wheels and handles</b> — that is exactly what the sizer frame does. A bag can be rotated, so sides are compared largest first: length, width, height. With low-cost airlines the rules almost always depend on the fare — pick yours in the dropdown." },
+  "l10n.aria":       { ru:"Язык", en:"Language" },
+  "units.aria":      { ru:"Единицы", en:"Units" },
+  "cm":              { ru:"см", en:"cm" },
+  "inch.w":          { ru:"дюймы", en:"inches" },
+  "ax.l":            { ru:"Длина", en:"Length" },
+  "ax.w":            { ru:"Ширина", en:"Width" },
+  "ax.h":            { ru:"Высота", en:"Height" },
+  "w":               { ru:"Вес", en:"Weight" },
+  "kg":              { ru:"кг", en:"kg" },
+  "presets.legend":  { ru:"Быстрые размеры", en:"Quick sizes" },
+  "bag.legend":      { ru:"Сумка в багажное отделение", en:"Bag for the overhead bin" },
+  "pi.legend":       { ru:"Ещё есть маленькая сумка / рюкзак под сиденье", en:"I also have a small bag / backpack for under the seat" },
+  "tol.label":       { ru:"Запас на сайзер:", en:"Sizer margin:" },
+  "btn.share":       { ru:"Скопировать ссылку", en:"Copy link" },
+  "btn.copy":        { ru:"Скопировать сводку", en:"Copy summary" },
+  "btn.reset":       { ru:"Сбросить", en:"Reset" },
+  "btn.all":         { ru:"Выбрать все", en:"Select all" },
+  "btn.none":        { ru:"Снять все", en:"Clear all" },
+  "s1.h":            { ru:"Что у тебя в сумках", en:"What is in your bags" },
+  "s1.hint":         { ru:"Можно в дюймах — пересчёт в сантиметры произойдёт сам.", en:"Inches are fine — they are converted to centimetres automatically." },
+  "s2.h":            { ru:"Результат по авиакомпаниям", en:"Result by airline" },
+  "s2.hint":         { ru:"Галочками выбираешь, куда летишь. Нажми на строку авиакомпании — ниже появится сравнение с рамкой-сайзером.", en:"Tick the airlines you fly with. Click an airline row to compare your bag with the sizer frame below." },
+  "s3.h":            { ru:"Сравнение с рамкой-сайзером", en:"Comparison with the sizer frame" },
+  "sz.top":          { ru:"Сверху (вид сверху)", en:"Top view" },
+  "sz.side":         { ru:"Сбоку", en:"Side view" },
+  "search.ph":       { ru:"Поиск: TK, Turkish, Pegasus…", en:"Search: TK, Turkish, Pegasus…" },
+  "foot.1":          { ru:"инструмент собран вручную, данные правил проверены по сайтам авиакомпаний.", en:"a hand-built tool; the allowance data was checked against airline websites." },
+  "foot.2":          { ru:"Правила перевозчиков меняются, лоукостеры часто меняют их по тарифам и типам самолётов. Это не гарантия и не baggage approval: перед вылетом сверься с сайтом авиакомпании и со своим билетом. Превышение размеров на трапе обычно означает доплату или сдачу сумки в багаж.",
+                       en:"Carrier rules change, and low-cost airlines often change them per fare and aircraft type. This is not a guarantee and not baggage approval: check the airline website and your ticket before flying. Oversized bags at the gate usually mean a fee or a checked bag." },
+  "foot.3":          { ru:"Никакой аналитики, куки и внешних запросов — всё считается в браузере, страница работает офлайн.",
+                       en:"No analytics, no cookies, no external requests — everything is computed in the browser and the page works offline." },
+
+  /* вердикты и счётчик */
+  "v.ok":            { ru:"подходит", en:"fits" },
+  "v.warn":          { ru:"впритык", en:"tight fit" },
+  "v.no":            { ru:"не подходит", en:"does not fit" },
+  "v.na":            { ru:"нет данных", en:"no data" },
+  "v.bin":           { ru:"сумка не входит", en:"no cabin bag" },
+  "v.off":           { ru:"не выбрана", en:"not selected" },
+  "t.ok":            { ru:"подходит", en:"fits" },
+  "t.warn":          { ru:"впритык", en:"tight fit" },
+  "t.no":            { ru:"не подходит", en:"does not fit" },
+  "t.na":            { ru:"не проверено", en:"not checked" },
+
+  /* причины */
+  "r.nodata":        { ru:"Авиакомпания не публикует ни габаритов, ни веса ручной клади.", en:"The airline publishes neither cabin size nor weight limits." },
+  "r.onlypi":        { ru:"Этот тариф не даёт сумку в багажное отделение — только маленькую под сиденье.", en:"This fare does not include an overhead-bin bag — only a small underseat item." },
+  "r.needbag":       { ru:"Введи три размера сумки, чтобы проверить габариты.", en:"Enter the three bag dimensions to check the size." },
+  "r.nodims":        { ru:"Габариты поштучно не публикуются — размер проверить нечем.", en:"Individual dimensions are not published, so the size cannot be checked." },
+  "r.nopi":          { ru:"Авиакомпания не предусматривает отдельный личный предмет под сиденье — только одна сумка.", en:"The airline has no separate personal item under the seat — one bag only." },
+  "r.pifree":        { ru:"Личный предмет разрешён без отдельных числовых лимитов.", en:"A personal item is allowed without separate numeric limits." },
+  "r.piinput":       { ru:"Введи размеры маленькой сумки, чтобы проверить личный предмет.", en:"Enter the small bag dimensions to check the personal item." },
+  "r.piOver":        { ru:"Личный предмет не влезает: {v} по стороне «{axis}», лимит {lim}.", en:"The personal item does not fit: {v} on the {axis}, limit {lim}." },
+  "r.total":         { ru:"Две сумки вместе: {v} кг при лимите {lim} кг.", en:"Two bags together: {v} kg against a limit of {lim} kg." },
+
+  /* строка лимита */
+  "lim.allowed":     { ru:"Разрешено:", en:"Allowed:" },
+  "lim.piOnly":      { ru:"только под сиденье", en:"underseat only" },
+  "lim.linear":      { ru:"сумма сторон ≤ {v}", en:"sum of sides ≤ {v}" },
+  "lim.pcs":         { ru:"{v} шт", en:"{v} pcs" },
+  "lim.total":       { ru:"вместе ≤ {v} кг", en:"together ≤ {v} kg" },
+  "lim.piFree":      { ru:"аксессуар под сиденье", en:"underseat accessory" },
+  "lim.piDims":      { ru:"аксессуар {d}{w}", en:"accessory {d}{w}" },
+
+  /* полоски */
+  "b.pi":            { ru:"акс.", en:"acc." },
+  "b.tight":         { ru:"впритык", en:"tight" },
+  "b.slack":         { ru:"запас {v}", en:"{v} spare" },
+  "b.total":         { ru:"обе сумки", en:"both bags" },
+  "b.piT":           { ru:"аксессуар", en:"accessory" },
+  "b.linear":        { ru:"сумма сторон", en:"sum of sides" },
+  "b.weight":        { ru:"вес сумки", en:"bag weight" },
+  "b.over":          { ru:"превышение", en:"over" },
+
+  /* карточка */
+  "why.sum":         { ru:"Почему так · примечания · источник", en:"Why · notes · source" },
+  "why.no":          { ru:"Габариты проверяются в первую очередь: если сумка не влезает в рамку, на трапе её снимут.", en:"Dimensions are checked first: a bag that does not fit the frame will be removed at the gate." },
+  "why.warn":        { ru:"Впритык: мягкая набитая сумка может не пройти рамку. Убери пару сантиметров или часть вещей.", en:"Tight fit: a soft, packed bag may fail the frame. Take off a couple of centimetres or leave something behind." },
+  "src":             { ru:"Источник: {src} · данные от {date}", en:"Source: {src} · data as of {date}" },
+  "conf.med":        { ru:"уточняй", en:"verify" },
+  "conf.low":        { ru:"не проверено", en:"unverified" },
+
+  /* сайзер */
+  "sz.nodims":       { ru:"Габариты у этой авиакомпании не публикуются.", en:"This airline does not publish cabin dimensions." },
+  "sz.enter":        { ru:"введи размеры", en:"enter sizes" },
+  "sz.frame":        { ru:"сайзер {v}", en:"sizer {v}" },
+  "sz.cap1":         { ru:"Синяя рамка — сайзер, заливка — твоя сумка. Подписи: ширина × глубина.", en:"Blue frame — the sizer, filled rectangle — your bag. Labels: width × depth." },
+  "sz.cap2":         { ru:"Рамка — сайзер {v}.", en:"The frame is the sizer {v}." },
+  "viz.for":         { ru:"Показано для «{name}»: {opt} — {dims}{weight}.", en:"Shown for “{name}”: {opt} — {dims}{weight}." },
+  "viz.sizer":       { ru:"сайзер {v}", en:"sizer {v}" },
+  "viz.sizerLin":    { ru:"сайзер {v}, сумма сторон ≤ {n}", en:"sizer {v}, sum of sides ≤ {n}" },
+  "viz.noDims":      { ru:"габариты не опубликованы", en:"dimensions not published" },
+  "adv.nofit":       { ru:"<b>Не влезает.</b> Сумку нужно уменьшить ещё на {v} — или взять меньший размер, или сдать в багаж.", en:"<b>Does not fit.</b> The bag must shrink by another {v} — or take a smaller bag, or check it." },
+  "adv.fits":        { ru:"<b>Влезает.</b>", en:"<b>It fits.</b>" },
+  "adv.spare":       { ru:" С запасом по всем сторонам.", en:" Spare room on every side." },
+  "adv.tightN":      { ru:" Впритык по {n} из трёх сторон — мягкая сумка в набитом виде может не пройти рамку.", en:" Tight on {n} of the three sides — a soft, packed bag may fail the frame." },
+  "adv.enter":       { ru:"Введи три размера сумки — и здесь появится наглядное сравнение с рамкой-сайзером.", en:"Enter the three bag dimensions to see a visual comparison with the sizer frame." },
+  "adv.wOver":       { ru:"Вес превышен на {v}.", en:"Weight is over by {v}." },
+  "adv.wSpare":      { ru:"По весу запас {v}.", en:"Weight spare: {v}." },
+
+  /* сводка и тосты */
+  "sum.title":       { ru:"Проверка ручной клади — CHRK-Bishkek", en:"Carry-on check — CHRK-Bishkek" },
+  "sum.nodims":      { ru:"размеры не указаны", en:"dimensions not given" },
+  "sum.bag":         { ru:"Сумка: {v}", en:"Bag: {v}" },
+  "sum.pi":          { ru:"Личный предмет: {v}", en:"Personal item: {v}" },
+  "sum.tol":         { ru:"Запас на сайзер: {v}", en:"Sizer margin: {v}" },
+  "sum.lim":         { ru:"  лимит: {v}", en:"  limit: {v}" },
+  "sum.noDims":      { ru:"габариты не публикуются", en:"dimensions not published" },
+  "sum.wTo":         { ru:"вес до {v} кг", en:"weight up to {v} kg" },
+  "sum.sum":         { ru:"≤ {v} сумма", en:"≤ {v} sum" },
+  "sum.foot":        { ru:"Проверено {date} по сайтам авиакомпаний. Сверься с билетом: правила меняются.", en:"Checked {date} against airline websites. Verify with your ticket: rules change." },
+  "to.preset":       { ru:"Размеры подставлены: {v}", en:"Sizes applied: {v}" },
+  "to.link":         { ru:"Ссылка скопирована", en:"Link copied" },
+  "to.summary":      { ru:"Сводка скопирована", en:"Summary copied" },
+  "to.manual":       { ru:"Скопируй текст вручную", en:"Please copy the text manually" },
+  "to.reset":        { ru:"Сброшено", en:"Reset" },
+  "reg.all":         { ru:"Все регионы", en:"All regions" },
+  "data.today":      { ru:"Данные правил: {v}.", en:"Allowance data: {v}." },
+  "none":            { ru:"Ничего не найдено.", en:"Nothing found." }
+};
+const AXES = () => (S.lang === "en" ? AXES_EN : AXES_RU);
+function t(key, vars){
+  const s = I18N[key] || I18N["none"];
+  let out = S.lang === "en" ? s.en : s.ru;
+  if (vars) for (const k in vars) out = out.split("{" + k + "}").join(vars[k]);
+  return out;
+}
+/* регион хранится в данных по-русски (он же ключ фильтра) — переводим только подпись */
+const REGIONS = {
+  "Ближний Восток": { en:"Middle East" },
+  "СНГ":            { en:"CIS" },
+  "Европа":         { en:"Europe" },
+  "Азия":           { en:"Asia" }
+};
+const tRegion = r => (S.lang === "en" && REGIONS[r] ? REGIONS[r].en : r);
+
+/* Переводы для полей данных. В массиве хранится только русский вариант
+   (*En), чтобы не раздувать 30 записей; английский добавляется точечно. */
+const nameOf  = a => (S.lang === "en" ? (a.nameEn  || a.name)  : a.name);
+const noteOf  = a => (S.lang === "en" ? (a.noteEn  || a.note)  : a.note);
+const srcOf   = a => (S.lang === "en" ? (a.srcEn   || a.src)   : a.src);
+const optLabel = (a, o) => (S.lang === "en" ? (o.labelEn || o.label) : o.label);
+const presetLabel = p => (S.lang === "en" ? (p.labelEn || p.label) : p.label);
+
+/* ---------------- утилиты ---------------- */
+const $ = id => document.getElementById(id);
+const num = v => { const n = parseFloat(v); return Number.isFinite(n) ? n : null; };
+const clamp = (v,a,b) => Math.min(b, Math.max(a, v));
+const fmt = (v,u) => {
+  if (v == null) return "—";
+  const r = u === "in" ? Math.round(v / 2.54 * 10) / 10 : Math.round(v * 10) / 10;
+  return String(r).replace(".", ",");
+};
+const toCm = (v,u) => v == null ? null : (u === "in" ? v * 2.54 : v);
+const fromCm = (v,u) => v == null ? null : (u === "in" ? v / 2.54 : v);
+const unitSuffix = () => S.unit === "in" ? "″" : " " + t("cm");
+const sortD = d => d ? [...d].sort((a,b) => b - a) : null;
+const hasAll = d => Array.isArray(d) && d.every(x => x != null && x > 0);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c]));
+
+/* ---------------- проверка ---------------- */
+/* state: ok | warn | no | na */
+function checkDims(bag, lim, tol, out){
+  if (!lim) return "na";
+  if (!hasAll(bag)) return "na";
+  const b = sortD(bag), l = sortD(lim);
+  let st = "ok";
+  for (let i = 0; i < 3; i++){
+    const slack = l[i] - b[i];
+    out.push({ i, bag:b[i], lim:l[i], slack });
+    if (slack < -tol) st = "no";
+    else if (slack <= 1) st = st === "no" ? "no" : "warn";
+  }
+  return st;
+}
+function checkScalar(v, lim, warnAt, out, unit){
+  if (v == null || lim == null) return "na";
+  const slack = lim - v;
+  out.push({ scalar:true, bag:v, lim, slack, unit });
+  if (slack < -0.001) return "no";
+  if (slack <= warnAt) return "warn";
+  return "ok";
+}
+function worst(list){
+  if (list.includes("no")) return "no";
+  if (list.includes("warn")) return "warn";
+  if (list.includes("ok")) return "ok";
+  return "na";
+}
+function evalAir(a, opt){
+  const res = { state:"na", reasons:[], bars:[] };
+  const s = [];
+  const tol = S.tol;
+
+  if (!opt.dims && !opt.linear && opt.weight == null && !opt.onlyPi){
+    res.reasons.push(t("r.nodata"));
+    return res;
+  }
+
+  if (opt.onlyPi && !opt.dims){
+    res.dimsState = "no";
+    res.binOnly = true;
+    res.reasons.push(t("r.onlypi"));
+    s.push("no");
+  } else {
+    res.dimsState = opt.dims ? checkDims(S.bag, opt.dims, tol, res.bars) : "na";
+    if (opt.dims && !hasAll(S.bag)) res.reasons.push(t("r.needbag"));
+    if (!opt.dims) res.reasons.push(t("r.nodims"));
+    s.push(res.dimsState);
+    if (opt.linear){
+      if (hasAll(S.bag)){
+        const sum = S.bag.reduce((x, y) => x + y, 0);
+        res.linearState = checkScalar(sum, opt.linear, 3, res.bars, t("cm"));
+        s.push(res.linearState);
+      } else res.linearState = "na";
+    }
+  }
+
+  res.weightState = checkScalar(S.bw, opt.weight, 0.5, res.bars, t("kg"));
+  s.push(res.weightState);
+
+  if (S.piOn){
+    const pi = opt.pi;
+    if (!pi){
+      res.piState = "no";
+      res.reasons.push(t("r.nopi"));
+      s.push("no");
+    } else if (pi.free){
+      res.piState = hasAll(S.pi) ? "ok" : "na";
+      if (!hasAll(S.pi)) res.reasons.push(t("r.pifree"));
+      s.push(res.piState);
+    } else {
+      const pbars = [];
+      res.piState = pi.dims ? checkDims(S.pi, pi.dims, tol, pbars) : "na";
+      for (const b of pbars) res.bars.push({ i:b.i, bag:b.bag, lim:b.lim, slack:b.slack, pi:true });
+      if (hasAll(S.pi)) pbars.forEach(b => {
+        if (b.slack < -tol)
+          res.reasons.push(t("r.piOver", {
+            v: fmt(bagVal(b, S.pi), S.unit) + unitSuffix(),
+            axis: AXES()[b.i],
+            lim: fmt(b.lim, S.unit) + unitSuffix()
+          }));
+      });
+      else if (pi.dims) res.reasons.push(t("r.piinput"));
+      const pw = checkScalar(S.pw, pi.weight, 0.5, [], t("kg"));
+      if (pw !== "na"){
+        res.bars.push({ scalar:true, bag:S.pw, lim:pi.weight, slack:pi.weight - S.pw, unit:t("kg"), pi:true });
+        s.push(pw);
+      }
+      s.push(res.piState);
+    }
+    if (opt.totalWeight != null && S.bw != null && S.pw != null){
+      const t2 = S.bw + S.pw;
+      const st = t2 > opt.totalWeight + 0.001 ? "no" : (opt.totalWeight - t2 <= 1 ? "warn" : "ok");
+      res.totalState = st;
+      res.bars.push({ scalar:true, bag:t2, lim:opt.totalWeight, slack:opt.totalWeight - t2, unit:t("kg"), total:true });
+      s.push(st);
+      if (st === "no") res.reasons.push(t("r.total", { v:t2, lim:opt.totalWeight }));
+    }
+  }
+
+  res.state = worst(s);
+  res.reasons = res.reasons.filter(Boolean);
+  return res;
+}
+function bagVal(bar, dims){
+  const b = sortD(dims);
+  return b[bar.i];
+}
+
+/* ---------------- рендер ---------------- */
+function render(){
+  const list = $("list");
+  const q = $("q").value.trim().toLowerCase();
+  const reg = S.region;
+  const regions = [...new Set(AIRLINES.map(a => a.region))];
+
+  list.textContent = "";
+  let shown = 0, counts = { ok:0, warn:0, no:0, na:0 };
+
+  for (const rg of regions){
+    if (reg && rg !== reg) continue;
+    const air = AIRLINES.filter(a => a.region === rg);
+    const det = document.createElement("details");
+    det.className = "region"; det.open = true;
+    const sum = document.createElement("summary");
+    sum.textContent = tRegion(rg);
+    det.appendChild(sum);
+
+    for (const a of air){
+      /* ищем по обоим написаниям имени, чтобы «Аэрофлот» находился и по Aeroflot */
+if (q && !((a.name + " " + (a.nameEn || "")).toLowerCase().includes(q) || a.code.toLowerCase().includes(q))) continue;
+      shown++;
+      const on = Object.prototype.hasOwnProperty.call(S.sel, a.code);
+      const optIdx = on ? (S.sel[a.code] | 0) : 0;
+      const opt = a.opts[optIdx] || a.opts[0];
+      const res = evalAir(a, opt);
+      if (on) counts[res.state]++;
+      det.appendChild(renderAir(a, optIdx, opt, res, on));
+    }
+    if (det.childElementCount > 1) list.appendChild(det);
+  }
+  if (!shown) list.innerHTML = '<p class="hint">' + esc(t("none")) + "</p>";
+
+  renderTally(counts);
+  renderViz();
+  drawWatermark();
+}
+
+function renderAir(a, optIdx, opt, res, on){
+  const el = document.createElement("div");
+  el.className = "air" + (on ? " on st-" + res.state : "") + (S.focus === a.code ? " st-focus" : "");
+
+  /* шапка строки */
+  const top = document.createElement("div");
+  top.className = "top";
+  top.innerHTML =
+    '<label class="chk" style="flex:1 1 auto;min-width:0">' +
+      '<input type="checkbox" data-code="' + a.code + '"' + (on ? " checked" : "") + '>' +
+      '<span style="min-width:0">' +
+        '<span class="flag">' + a.flag + '</span> ' +
+        '<span class="nm">' + esc(nameOf(a)) + '</span> ' +
+        '<span class="code">' + esc(a.code) + '</span>' +
+        (a.conf !== "high" ? ' <span class="conf ' + a.conf + '">' + (a.conf === "med" ? t("conf.med") : t("conf.low")) + '</span>' : '') +
+      '</span>' +
+    '</label>' +
+    '<span class="pill ' + (on ? res.state : "") + '">' + (on ? verdictText(res) : t("v.off")) + '</span>';
+  el.appendChild(top);
+  top.addEventListener("click", e => {
+    if (e.target.tagName === "INPUT" || e.target.tagName === "SELECT" || e.target.closest(".opts")) return;
+    S.focus = a.code; render();
+  });
+
+  if (!on){ el.style.opacity = ".62"; return el; }
+
+  /* выбор тарифа */
+  if (a.opts.length > 1){
+    const sel = document.createElement("select");
+    sel.className = "opts";
+    a.opts.forEach((o, i) => {
+      const op = document.createElement("option");
+      op.value = i; op.textContent = optLabel(a, o);
+      if (i === optIdx) op.selected = true;
+      sel.appendChild(op);
+    });
+    sel.addEventListener("change", () => { S.sel[a.code] = +sel.value; save(); render(); });
+    el.appendChild(sel);
+  }
+
+  /* строка лимита */
+  const lim = document.createElement("div");
+  lim.className = "lim";
+  const bits = [];
+  if (opt.onlyPi && !opt.dims) bits.push("<b>" + t("lim.piOnly") + "</b>");
+  else if (opt.dims) bits.push("<b>" + opt.dims.join("×") + "</b> " + unitSuffix() + (opt.linear ? " · " + t("lim.linear", { v:opt.linear }) : ""));
+  if (opt.weight != null) bits.push("<b>" + opt.weight + "</b> " + t("kg"));
+  if (opt.pieces > 1) bits.push(t("lim.pcs", { v:opt.pieces }));
+  if (opt.totalWeight != null) bits.push(t("lim.total", { v:opt.totalWeight }));
+  if (opt.pi){
+    if (opt.pi.free) bits.push(t("lim.piFree"));
+    else if (opt.pi.dims) bits.push(t("lim.piDims", { d:opt.pi.dims.join("×"), w:opt.pi.weight != null ? " / " + opt.pi.weight + " " + t("kg") : "" }));
+  }
+  lim.innerHTML = "<span>" + t("lim.allowed") + "</span> " + bits.join(" <span style=\"opacity:.4\">·</span> ");
+  el.appendChild(lim);
+
+  /* полоски по сторонам */
+  const bars = res.bars.filter(b => !b.scalar);
+  if (bars.length){
+    const box = document.createElement("div");
+    box.className = "bars";
+    bars.forEach(b => {
+      const over = b.slack < -S.tol;
+      const warn = !over && b.slack <= 1;
+      const pct = clamp(b.bag / b.lim * 100, 0, 100);
+      const row = document.createElement("div");
+      row.className = "bar" + (over ? " no over" : warn ? " warn" : "");
+      const slackTxt = over ? "−" + fmt(Math.abs(b.slack), S.unit) + unitSuffix()
+        : (Math.abs(b.slack) < 0.05 ? t("b.tight") : t("b.slack", { v:fmt(b.slack, S.unit) + unitSuffix() }));
+      row.innerHTML =
+        '<span>' + AXES()[b.i] + (b.pi ? ' <em style="opacity:.6">' + t("b.pi") + "</em>" : "") + '</span>' +
+        '<span class="track"><span class="fill" style="width:' + pct + '%"></span></span>' +
+        '<span class="num">' + fmt(b.bag, S.unit) + " / " + fmt(b.lim, S.unit) + unitSuffix() + " · " + slackTxt + '</span>';
+      box.appendChild(row);
+    });
+    el.appendChild(box);
+  }
+
+  /* вес, линейный размер, суммарный вес */
+  const scalar = res.bars.filter(b => b.scalar);
+  if (scalar.length){
+    const w = document.createElement("div");
+    w.className = "bars";
+    scalar.forEach(b => {
+      const over = b.slack < 0;
+      /* длина и вес различаются по строке единиц; строка единиц локализована, поэтому сравниваем с t("cm") */
+      const isCm = b.unit === t("cm");
+      const warn = !over && b.slack <= (isCm ? 3 : 0.5);
+      const pct = b.lim ? clamp(b.bag / b.lim * 100, 0, 100) : 0;
+      const row = document.createElement("div");
+      row.className = "bar" + (over ? " no over" : warn ? " warn" : "");
+      const title = b.total ? t("b.total") : b.pi ? t("b.piT") : isCm ? t("b.linear") : t("b.weight");
+      const val = (v) => isCm ? fmt(v, S.unit) + unitSuffix() : fmt(v, "kg") + " " + t("kg");
+      row.innerHTML =
+        '<span>' + title + '</span>' +
+        '<span class="track"><span class="fill" style="width:' + pct + '%"></span></span>' +
+        '<span class="num">' + val(b.bag) + " / " + val(b.lim) + (over ? " · " + t("b.over") : "") + '</span>';
+      w.appendChild(row);
+    });
+    el.appendChild(w);
+  }
+
+  /* почему */
+  const why = document.createElement("details");
+  why.className = "why";
+  const extra = [];
+  if (res.state === "no") extra.push(t("why.no"));
+  if (res.state === "warn") extra.push(t("why.warn"));
+  const sum = document.createElement("summary");
+  sum.textContent = t("why.sum");
+  why.appendChild(sum);
+  const p = document.createElement("p");
+  p.textContent = noteOf(a);
+  why.appendChild(p);
+  if (res.reasons.length){
+    const ul = document.createElement("ul");
+    ul.className = "reasons";
+    res.reasons.forEach(r => { const li = document.createElement("li"); li.textContent = r; ul.appendChild(li); });
+    why.appendChild(ul);
+  }
+  if (extra.length){
+    const p2 = document.createElement("p");
+    p2.innerHTML = extra.map(esc).join(" ");
+    why.appendChild(p2);
+  }
+  const src = document.createElement("p");
+  src.className = "src";
+  src.textContent = t("src", { src:srcOf(a), date:DATA_CHECKED() });
+  why.appendChild(src);
+  el.appendChild(why);
+  return el;
+}
+
+function verdictText(res){
+  if (res.state === "no") return res.binOnly ? t("v.bin") : t("v.no");
+  if (res.state === "warn") return t("v.warn");
+  if (res.state === "na") return t("v.na");
+  return t("v.ok");
+}
+
+function renderTally(c){
+  $("tally").innerHTML =
+    '<div class="ok"><b>' + c.ok + "</b>" + t("t.ok") + "</div>" +
+    '<div class="warn"><b>' + c.warn + "</b>" + t("t.warn") + "</div>" +
+    '<div class="no"><b>' + c.no + "</b>" + t("t.no") + "</div>" +
+    "<div><b>" + c.na + "</b>" + t("t.na") + "</div>";
+}
+
+/* ---------------- сайзер ---------------- */
+function renderViz(){
+  let a = null, opt = null;
+  if (S.focus) a = AIRLINES.find(x => x.code === S.focus);
+  if (!a) a = AIRLINES.find(x => Object.prototype.hasOwnProperty.call(S.sel, x.code));
+  if (!a) a = AIRLINES[0];
+  const idx = clamp(S.sel[a.code] | 0, 0, a.opts.length - 1);
+  opt = a.opts[idx];
+
+  $("viz-who").textContent = t("viz.for", {
+    name: nameOf(a),
+    opt: optLabel(a, opt),
+    dims: opt.dims
+      ? (opt.linear ? t("viz.sizerLin", { v:opt.dims.join("×") + unitSuffix(), n:opt.linear })
+                    : t("viz.sizer", { v:opt.dims.join("×") + unitSuffix() }))
+      : t("viz.noDims"),
+    weight: opt.weight != null ? ", " + t("sum.wTo", { v:opt.weight }) : ""
+  });
+
+  const lim = opt.dims ? sortD(opt.dims) : null;
+  drawBox("sz-top", "cap-top", S.bag, lim, 1, 2);
+  drawBox("sz-side", "cap-side", S.bag, lim, 0, 2);
+
+  const advice = $("advice");
+  const out = [];
+  if (lim && hasAll(S.bag)){
+    const b = sortD(S.bag);
+    const over = b.map((v,i) => lim[i] - v + S.tol).filter(x => x < 0);
+    if (over.length){
+      out.push(t("adv.nofit", { v:over.map(x => fmt(Math.abs(x), S.unit) + unitSuffix()).join(", ") }));
+    } else {
+      const tight = b.map((v,i) => lim[i] - v).filter(x => x <= 1).length;
+      out.push(t("adv.fits") + (tight ? t("adv.tightN", { n:tight }) : t("adv.spare")));
+    }
+  } else {
+    out.push(t("adv.enter"));
+  }
+  if (opt.weight != null && S.bw != null){
+    const d = opt.weight - S.bw;
+    out.push(d < 0 ? t("adv.wOver", { v:fmt(-d,"kg") + " " + t("kg") }) : t("adv.wSpare", { v:fmt(d,"kg") + " " + t("kg") }));
+  }
+  advice.innerHTML = out.join(" ");
+}
+
+function drawBox(topId, capId, bag, lim, a1, a2){
+  const host = $(topId), cap = $(capId);
+  host.textContent = "";
+  if (!lim){ cap.textContent = t("sz.nodims"); return; }
+  const W = 300, H = 220, pad = 16;
+  const lv = [lim[a1], lim[a2]];
+  const bv = hasAll(bag) ? sortD(bag) : null;
+  const span = Math.max(lv[0], lv[1], bv ? bv[a1] : 0, bv ? bv[a2] : 0) * 1.08;
+  const sc = Math.min((W - pad * 2) / span, (H - pad * 2) / span);
+  const cx = W / 2, cy = H / 2;
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+  svg.setAttribute("role", "img");
+  const mk = (t, attrs) => { const n = document.createElementNS("http://www.w3.org/2000/svg", t); for (const k in attrs) n.setAttribute(k, attrs[k]); return n; };
+  const cs = getComputedStyle(document.documentElement);
+  const acc = cs.getPropertyValue("--acc").trim() || "#0f766e";
+  const no = cs.getPropertyValue("--no").trim() || "#c02626";
+  const fg = cs.getPropertyValue("--fg").trim() || "#12211e";
+
+  svg.appendChild(mk("rect", { x:pad*0.5, y:pad*0.5, width:W-pad, height:H-pad, rx:8,
+    fill:"none", stroke:cs.getPropertyValue("--line").trim() }));
+
+  /* рамка сайзера */
+  const lw = lv[0] * sc, lh = lv[1] * sc;
+  svg.appendChild(mk("rect", { x:cx-lw/2, y:cy-lh/2, width:lw, height:lh, rx:4,
+    fill:"none", stroke:acc, "stroke-width":2, "stroke-dasharray":"7 5" }));
+
+  if (bv){
+    const bw = bv[a1] * sc, bh = bv[a2] * sc;
+    const over = bv[a1] > lim[a1] + S.tol || bv[a2] > lim[a2] + S.tol;
+    const node = mk("rect", { x:cx-bw/2, y:cy-bh/2, width:Math.max(bw,2), height:Math.max(bh,2), rx:3,
+      fill: over ? no : acc, "fill-opacity": over ? .22 : .3, stroke: over ? no : acc, "stroke-width":2 });
+    svg.appendChild(node);
+    const t1 = mk("text", { x:cx, y:cy - bh/2 - 8, "text-anchor":"middle", fill:fg, "font-size":"13", "font-family":"ui-monospace,monospace" });
+    t1.textContent = fmt(bv[a1], S.unit) + unitSuffix();
+    const t2 = mk("text", { x:cx, y:cy + bh/2 + 17, "text-anchor":"middle", fill:fg, "font-size":"13", "font-family":"ui-monospace,monospace" });
+    t2.textContent = fmt(bv[a2], S.unit) + unitSuffix();
+    svg.appendChild(t1); svg.appendChild(t2);
+  } else {
+    const lbl = mk("text", { x:cx, y:cy+4, "text-anchor":"middle", fill:fg, "font-size":"12", opacity:.6 });
+    lbl.textContent = t("sz.enter");
+    svg.appendChild(lbl);
+  }
+  const lt = mk("text", { x:cx, y:cy - lh/2 - 8, "text-anchor":"middle", fill:acc, "font-size":"12", "font-family":"ui-monospace,monospace" });
+  if (bv) lt.setAttribute("y", cy - lh/2 - 26);
+  lt.textContent = t("sz.frame", { v:fmt(lv[0], S.unit) + "×" + fmt(lv[1], S.unit) });
+  svg.appendChild(lt);
+  host.appendChild(svg);
+  cap.textContent = bv
+    ? t("sz.cap1")
+    : t("sz.cap2", { v:fmt(lv[0], S.unit) + "×" + fmt(lv[1], S.unit) + unitSuffix() });
+}
+
+/* ---------------- водяной знак ---------------- */
+let wmTimer = null;
+function drawWatermark(){
+  const wm = $("wm");
+  wm.textContent = "";
+  const pageH = document.documentElement.scrollHeight;
+  wm.style.height = pageH + "px";
+  const w = document.documentElement.clientWidth;
+  const stepX = 330, stepY = 165;
+  const frag = document.createDocumentFragment();
+  for (let y = -30; y < pageH + 140; y += stepY){
+    for (let x = -70; x < w + 120; x += stepX){
+      const s = document.createElement("span");
+      s.textContent = "CHRK-Bishkek";
+      s.style.left = x + "px";
+      s.style.top = y + "px";
+      frag.appendChild(s);
+    }
+  }
+  wm.appendChild(frag);
+}
+function scheduleWatermark(){ clearTimeout(wmTimer); wmTimer = setTimeout(drawWatermark, 150); }
+
+/* ---------------- состояние ---------------- */
+function readInputs(){
+  S.bag = [$("b1").value, $("b2").value, $("b3").value].map(v => toCm(num(v), S.unit));
+  S.bw  = num($("bw").value);
+  S.pi  = [$("p1").value, $("p2").value, $("p3").value].map(v => toCm(num(v), S.unit));
+  S.pw  = num($("pw").value);
+  S.tol = num($("tol").value) || 0;
+  S.piOn = $("pi-on").checked;
+  $("tol-v").textContent = String(S.tol).replace(".", ",");
+}
+function writeInputs(){
+  /* в дюймах — два знака: иначе обратный пересчёт «55 см → 21,7″ → 55,1 см» теряет сантиметры */
+  const putDim = (id, v) => {
+    $(id).value = v == null ? "" : S.unit === "in" ? Math.round(fromCm(v, "in") * 100) / 100 : Math.round(v * 10) / 10;
+  };
+  const putKg = (id, v) => { $(id).value = v == null ? "" : Math.round(v * 10) / 10; };
+  putDim("b1", S.bag[0]); putDim("b2", S.bag[1]); putDim("b3", S.bag[2]); putKg("bw", S.bw);
+  putDim("p1", S.pi[0]); putDim("p2", S.pi[1]); putDim("p3", S.pi[2]); putKg("pw", S.pw);
+  $("pi-on").checked = S.piOn;
+  ["p1","p2","p3","pw"].forEach(id => $(id).disabled = !S.piOn);
+  $("tol").value = S.tol;
+  $("u-cm").setAttribute("aria-pressed", S.unit === "cm");
+  $("u-in").setAttribute("aria-pressed", S.unit === "in");
+}
+function save(){
+  try{
+    localStorage.setItem("chrk-carryon-v1", JSON.stringify({
+      bag:S.bag, bw:S.bw, pi:S.pi, pw:S.pw, piOn:S.piOn, unit:S.unit, tol:S.tol, sel:S.sel, lang:S.lang
+    }));
+  }catch(e){}
+}
+function load(){
+  let raw = null;
+  try{
+    if (location.hash.length > 1){
+      const p = new URLSearchParams(location.hash.slice(1));
+      const b = p.get("d"); const pi = p.get("p");
+      raw = {
+        bag: b ? b.split(",").map(Number) : null,
+        bw: p.get("w") ? Number(p.get("w")) : null,
+        pi: pi ? pi.split(",").map(Number) : null,
+        pw: p.get("pw") ? Number(p.get("pw")) : null,
+        piOn: p.get("pi") === "1",
+        unit: p.get("u") === "in" ? "in" : "cm",
+        tol: p.get("t") ? Number(p.get("t")) : 0,
+        sel: p.get("a") ? Object.fromEntries(p.get("a").split(",").map(x => x.split(":")).filter(x => x[0])) : null,
+        lang: p.get("l") === "en" ? "en" : "ru"
+      };
+    } else raw = JSON.parse(localStorage.getItem("chrk-carryon-v1") || "null");
+  }catch(e){ raw = null; }
+
+  if (raw){
+    if (raw.bag) S.bag = raw.bag;
+    if ("bw" in raw) S.bw = raw.bw;
+    if (raw.pi) S.pi = raw.pi;
+    if ("pw" in raw) S.pw = raw.pw;
+    S.piOn = !!raw.piOn;
+    S.unit = raw.unit || "cm";
+    S.tol = raw.tol || 0;
+    S.lang = raw.lang === "en" ? "en" : "ru";
+    S.sel = raw.sel && Object.keys(raw.sel).length ? raw.sel
+      : Object.fromEntries(AIRLINES.map(a => [a.code, 0]));
+  } else {
+    S.sel = Object.fromEntries(AIRLINES.map(a => [a.code, 0]));
+  }
+}
+function shareURL(){
+  const p = new URLSearchParams();
+  if (S.bag.some(x => x != null)) p.set("d", S.bag.map(x => Math.round(x)).join(","));
+  if (S.bw != null) p.set("w", Math.round(S.bw * 10) / 10);
+  if (S.piOn){
+    p.set("pi", "1");
+    if (S.pi.some(x => x != null)) p.set("p", S.pi.map(x => Math.round(x)).join(","));
+    if (S.pw != null) p.set("pw", Math.round(S.pw * 10) / 10);
+  }
+  p.set("u", S.unit);
+  if (S.tol) p.set("t", S.tol);
+  p.set("l", S.lang);
+  p.set("a", Object.entries(S.sel).map(([k,v]) => k + ":" + v).join(","));
+  return location.origin + location.pathname + "#" + p.toString();
+}
+function summaryText(){
+  const L = [];
+  const dimsTxt = v => hasAll(v) ? v.map(x => Math.round(x)).join("×") + " " + t("cm") : t("sum.nodims");
+  L.push(t("sum.title"));
+  L.push(t("sum.bag", { v:dimsTxt(S.bag) + (S.bw != null ? ", " + S.bw + " " + t("kg") : "") }));
+  if (S.piOn) L.push(t("sum.pi", { v:dimsTxt(S.pi) + (S.pw != null ? ", " + S.pw + " " + t("kg") : "") }));
+  L.push(t("sum.tol", { v:S.tol + " " + t("cm") }));
+  L.push("");
+  for (const a of AIRLINES){
+    if (!Object.prototype.hasOwnProperty.call(S.sel, a.code)) continue;
+    const opt = a.opts[clamp(S.sel[a.code] | 0, 0, a.opts.length - 1)];
+    const res = evalAir(a, opt);
+    const limTxt = opt.dims
+      ? opt.dims.join("×") + " " + t("cm") + (opt.linear ? " (" + t("sum.sum", { v:opt.linear + " " + t("cm") }) + ")" : "")
+      : (opt.linear ? t("sum.sum", { v:opt.linear + " " + t("cm") }) : t("sum.noDims"));
+    L.push(nameOf(a) + " [" + a.code + "] · " + optLabel(a, opt));
+    L.push(t("sum.lim", { v:limTxt + (opt.weight != null ? ", " + opt.weight + " " + t("kg") : "") }));
+    L.push("  → " + verdictText(res).toUpperCase() + (res.reasons.length ? ": " + res.reasons.join("; ") : ""));
+  }
+  L.push("");
+  L.push(t("sum.foot", { date:DATA_CHECKED() }));
+  return L.join("\n");
+}
+function toast(msg){
+  const node = $("toast");
+  node.textContent = msg;
+  node.classList.add("show");
+  clearTimeout(node._t);
+  node._t = setTimeout(() => node.classList.remove("show"), 1900);
+}
+function copyText(txt, okMsg){
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(() => toast(okMsg), () => fallback());
+  } else fallback();
+  function fallback(){
+    const ta = document.createElement("textarea");
+    ta.value = txt;
+    ta.style.cssText = "position:fixed;opacity:0";
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand("copy"); toast(okMsg); } catch(e){ toast(t("to.manual")); }
+    ta.remove();
+  }
+}
+
+/* ---------------- события ---------------- */
+function buildStatic(){
+  $("presets").addEventListener("click", e => {
+    const b = e.target.closest(".chip"); if (!b) return;
+    const d = PRESETS[+b.dataset.i].dims;
+    S.bag = [...d]; S.bw = S.bw == null ? 8 : S.bw;
+    writeInputs(); readInputs(); save(); render();
+    toast(t("to.preset", { v:d.join("×") }));
+  });
+  $("region").addEventListener("change", e => { S.region = e.target.value; render(); });
+  $("q").addEventListener("input", render);
+  $("list").addEventListener("change", e => {
+    const code = e.target.dataset && e.target.dataset.code;
+    if (!code) return;
+    if (e.target.checked) S.sel[code] = S.sel[code] | 0;
+    else delete S.sel[code];
+    save(); render();
+  });
+  $("all").addEventListener("click", () => { AIRLINES.forEach(a => S.sel[a.code] = S.sel[a.code] | 0); save(); render(); });
+  $("none").addEventListener("click", () => { S.sel = {}; save(); render(); });
+  ["b1","b2","b3","bw","p1","p2","p3","pw"].forEach(id => {
+    $(id).addEventListener("input", () => { readInputs(); save(); render(); });
+  });
+  $("pi-on").addEventListener("change", () => { readInputs(); writeInputs(); save(); render(); });
+  $("tol").addEventListener("input", () => { readInputs(); save(); render(); });
+  $("u-cm").addEventListener("click", () => { if (S.unit === "cm") return; readInputs(); S.unit = "cm"; writeInputs(); save(); render(); });
+  $("u-in").addEventListener("click", () => { if (S.unit === "in") return; readInputs(); S.unit = "in"; writeInputs(); save(); render(); });
+  $("share").addEventListener("click", () => copyText(shareURL(), t("to.link")));
+  $("copy").addEventListener("click", () => copyText(summaryText(), t("to.summary")));
+  $("reset").addEventListener("click", () => {
+    S.bag = [null,null,null]; S.bw = null; S.pi = [null,null,null]; S.pw = null;
+    S.piOn = false; S.tol = 0; S.focus = null;
+    S.sel = Object.fromEntries(AIRLINES.map(a => [a.code, 0]));
+    $("q").value = ""; $("region").value = "";
+    writeInputs(); readInputs(); save(); render(); toast(t("to.reset"));
+  });
+  window.addEventListener("resize", scheduleWatermark);
+  window.addEventListener("hashchange", () => { load(); applyI18n(); writeInputs(); render(); });
+  if (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches){
+    matchMedia("(prefers-color-scheme: dark)").addEventListener("change", scheduleWatermark);
+  }
+  $("l-ru").addEventListener("click", () => setLang("ru"));
+  $("l-en").addEventListener("click", () => setLang("en"));
+}
+
+/* ---------------- язык ---------------- */
+function applyI18n(){
+  document.documentElement.lang = S.lang;
+  document.title = t("doc.title");
+  const desc = document.querySelector('meta[name="description"]');
+  if (desc) desc.setAttribute("content", t("doc.desc"));
+  for (const node of document.querySelectorAll("[data-i18n]")){
+    const html = I18N[node.dataset.i18n];
+    if (html) node.innerHTML = (S.lang === "en" ? html.en : html.ru);
+  }
+  for (const node of document.querySelectorAll("[data-i18n-attr]")){
+    for (const pair of node.dataset.i18nAttr.split(",")){
+      const i = pair.indexOf(":");
+      if (i < 0) continue;
+      const attr = pair.slice(0, i).trim(), key = pair.slice(i + 1).trim();
+      const v = I18N[key];
+      if (v) node.setAttribute(attr, S.lang === "en" ? v.en : v.ru);
+    }
+  }
+  /* подписи, которые JS строит сам */
+  $("u-in").textContent = t("inch.w");
+  $("l-ru").setAttribute("aria-pressed", String(S.lang === "ru"));
+  $("l-en").setAttribute("aria-pressed", String(S.lang === "en"));
+  /* чипы быстрых размеров и список регионов зависят от языка */
+  $("presets").innerHTML = PRESETS.map((p,i) =>
+    '<button type="button" class="chip" data-i="' + i + '">' + esc(presetLabel(p)) + "</button>").join("");
+  const regions = [...new Set(AIRLINES.map(a => a.region))];
+  $("region").innerHTML = '<option value="">' + t("reg.all") + "</option>" +
+    regions.map(r => '<option value="' + esc(r) + '">' + esc(tRegion(r)) + "</option>").join("");
+  $("region").value = S.region;
+  $("today").textContent = t("data.today", { v:DATA_CHECKED() });
+}
+function setLang(l){
+  if (l !== "en" && l !== "ru") return;
+  S.lang = l;
+  applyI18n();
+  save();
+  render();
+}
+
+buildStatic();
+load();
+applyI18n();
+writeInputs();
+readInputs();
+render();
+if (!location.hash){
+  try { history.replaceState(null, "", location.pathname + "#" + shareURL().split("#")[1]); }
+  catch(e){ /* file:// — не критично */ }
+}
+</script>
+</body>
+</html>
