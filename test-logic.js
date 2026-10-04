@@ -202,13 +202,24 @@ ok("ссылка содержит выбор авиакомпаний", new URL(
 /* ---------- 8. офлайн-самодостаточность ----------
    Инвариант: страница не делает внешних запросов. Исходящие ссылки на магазины
    запросами не являются — они срабатывают только по клику, поэтому допустимы,
-   но обязаны быть помечены как спонсорские. */
+   но обязаны быть помечены как спонсорские.
+
+   ОДНО ИСКЛЮЧЕНИЕ: скрипт Travelpayouts Drive. Он подгружается извне сознательно
+   (см. README, раздел про Drive), поэтому проверка ниже не «запретить всё»,
+   а «разрешить ровно этот один и не пропустить никакой другой». Если скрипт
+   убрать из <head>, проверка снова становится полностью строгой. */
 console.log("\n== Автономность ==");
+const DRIVE_HOST = "emrldtp.cc";
 const resTags = html.match(/<(script|link|img|iframe|object|embed|video|audio|source)\b[^>]*\b(?:src|href)\s*=\s*["'](?!data:|#)[^"']+["']/gi) || [];
 ok("нет внешних ресурсов (script/link/img/iframe)", resTags.length === 0, JSON.stringify(resTags));
 ok("нет @import", !/@import/.test(html));
 ok("нет fetch/XHR/sendBeacon/import()", !/\bfetch\(|XMLHttpRequest|sendBeacon|\bimport\s*\(/.test(html));
 ok("нет внешних шрифтов", !/fonts\.(googleapis|gstatic)/.test(html));
+/* скрипты, которые страница создаёт скриптом: document.createElement("script") + .src = */
+const injected = [...html.matchAll(/\.src\s*=\s*["'](https?:\/\/[^"']+)["']/g)].map(m => m[1]);
+ok("внешний скрипт только Drive (или ни одного)",
+   injected.every(u => u.includes(DRIVE_HOST)), JSON.stringify(injected));
+ok("сторонних скриптов не больше одного", injected.length <= 1, String(injected.length));
 const extLinks = html.match(/<a\b[^>]*\bhref\s*=\s*["']https?:\/\/[^"']+["'][^>]*>/gi) || [];
 ok("внешние ссылки в разметке не тянут ресурсы (только <a>)", extLinks.every(l => /^<a\b/i.test(l.trim())));
 ok("есть водяной знак CHRK-Bishkek", (html.match(/CHRK-Bishkek/g) || []).length >= 3);
