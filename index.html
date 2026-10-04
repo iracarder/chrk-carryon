@@ -203,7 +203,7 @@ footer .wm-badge{font:700 12px/1 ui-monospace,monospace;letter-spacing:.08em;col
     <div class="brand">
       <div>
         <h1 data-i18n="h1">Поместится ли это в мою ручную кладь?</h1>
-        <div class="sub" data-i18n="sub">Габариты, вес и сайзер для 30 авиакомпаний. Один файл, работает без интернета.</div>
+        <div class="sub" data-i18n="sub">Габариты, вес и сайзер для 30 авиакомпаний. Один файл, весь расчёт в браузере.</div>
       </div>
       <div class="seg" role="group" data-i18n-attr="aria-label:l10n.aria" aria-label="Язык" id="lang">
         <button type="button" id="l-ru" aria-pressed="true">RU</button>
@@ -293,6 +293,7 @@ footer .wm-badge{font:700 12px/1 ui-monospace,monospace;letter-spacing:.08em;col
   <p><span class="wm-badge">CHRK-Bishkek</span> — <span data-i18n="foot.1">инструмент собран вручную, данные правил проверены по сайтам авиакомпаний.</span> <span id="today"></span></p>
   <p data-i18n="foot.2">Правила перевозчиков меняются, лоукостеры часто меняют их по тарифам и типам самолётов. Это не гарантия и не baggage approval: перед вылетом сверься с сайтом авиакомпании и со своим билетом. Превышение размеров на трапе обычно означает доплату или сдачу сумки в багаж.</p>
   <p data-i18n="foot.3">Всё считается в браузере, без регистрации. Реклама и партнёрские ссылки приносят нам доход — на результат проверки они не влияют.</p>
+  <p data-i18n="fly">Собираетесь лететь с кем-то из выбранных? Сравните цены на <a href="https://aviasales.tpx.li/w6JHGX0W" target="_blank" rel="sponsored noopener">Aviasales</a>.</p>
   <p data-i18n="foot.4">Исходный код открыт: github.com/iracarder/chrk-carryon. Нашёл у перевозчика другие нормы — правь массив AIRLINES и присылай пул-реквест.</p>
 </footer>
 
@@ -590,7 +591,7 @@ const I18N = {
   "doc.desc":        { ru:"Проверь свою сумку и рюкзак по ручной клади 30 авиакомпаний: габариты, вес, сайзер. Всё считается в браузере, без регистрации. CHRK-Bishkek.",
                        en:"Check your bag and backpack against the carry-on rules of 30 airlines: size, weight, sizer. Computed in your browser, no signup. CHRK-Bishkek." },
   "h1":              { ru:"Поместится ли это в мою ручную кладь?", en:"Will this fit in my carry-on?" },
-  "sub":             { ru:"Габариты, вес и сайзер для 30 авиакомпаний. Один файл, работает без интернета.", en:"Size, weight and sizer for 30 airlines. One file, works without internet." },
+  "sub":             { ru:"Габариты, вес и сайзер для 30 авиакомпаний. Один файл, весь расчёт в браузере.", en:"Size, weight and sizer for 30 airlines. One file, all computed in the browser." },
   "tip":             { ru:"<b>Меряй сумку вместе с колёсами и ручками</b> — именно так это делает рамка-сайзер. Сумку можно поворачивать, поэтому размеры сравниваются по убыванию: длина, ширина, высота. У лоукостеров правила почти всегда зависят от тарифа — выбирай свой вариант в выпадающем списке.",
                        en:"<b>Measure the bag including wheels and handles</b> — that is exactly what the sizer frame does. A bag can be rotated, so sides are compared largest first: length, width, height. With low-cost airlines the rules almost always depend on the fare — pick yours in the dropdown." },
   "l10n.aria":       { ru:"Язык", en:"Language" },
@@ -624,6 +625,8 @@ const I18N = {
                        en:"Carrier rules change, and low-cost airlines often change them per fare and aircraft type. This is not a guarantee and not baggage approval: check the airline website and your ticket before flying. Oversized bags at the gate usually mean a fee or a checked bag." },
   "foot.3":          { ru:"Всё считается в браузере, без регистрации. Реклама и партнёрские ссылки приносят нам доход — на результат проверки они не влияют.",
                        en:"Computed in your browser, no signup. Ads and partner links pay for this tool — they never change the result." },
+  "fly":             { ru:"Собираетесь лететь с кем-то из выбранных? Сравните цены на <a href=\"https://aviasales.tpx.li/w6JHGX0W\" target=\"_blank\" rel=\"sponsored noopener\">Aviasales</a>.",
+                        en:"Flying with one of the airlines you selected? <a href=\"https://aviasales.tpx.li/w6JHGX0W\" target=\"_blank\" rel=\"sponsored noopener\">Compare fares on Aviasales</a>." },
   "foot.4":          { ru:"Исходный код открыт: github.com/iracarder/chrk-carryon. Нашёл у перевозчика другие нормы — правь массив AIRLINES и присылай пул-реквест.",
                        en:"Source is open: github.com/iracarder/chrk-carryon. Found different limits on an airline page? Edit the AIRLINES array and send a pull request." },
 
