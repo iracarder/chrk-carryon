@@ -4,6 +4,9 @@
 # каталог для выкладки на Netlify: копия index.html, в git не нужен
 dist/
 
+# служебное состояние Netlify CLI: содержит абсолютный локальный путь
+.netlify/
+
 # система
 Thumbs.db
 desktop.ini
