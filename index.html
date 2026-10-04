@@ -181,6 +181,16 @@ footer .wm-badge{font:700 12px/1 ui-monospace,monospace;letter-spacing:.08em;col
 }
 .toast.show{opacity:.94}
 @media print{.wm,.row,.hint{display:none}}
+
+/* индекс страниц по авиакомпаниям */
+.airidx{margin-top:18px;padding:12px 14px;border-radius:10px;border:1px solid var(--line);
+  background:var(--card);font-size:13.5px}
+.airidx summary{cursor:pointer;font-weight:600;color:var(--acc)}
+.airidx p{margin:8px 0}
+.airidx ul{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:6px 8px}
+.airidx a{display:inline-block;padding:5px 10px;border-radius:8px;font-size:13px;
+  text-decoration:none;border:1px solid var(--line);background:var(--bg);color:var(--acc)}
+.airidx a:hover{background:color-mix(in srgb,var(--acc) 10%,var(--bg))}
 </style>
 <!-- Travelpayouts Drive: affiliate monetization. The only external script on the
      page, added deliberately on purpose. See README for the reasoning. -->
@@ -288,6 +298,45 @@ footer .wm-badge{font:700 12px/1 ui-monospace,monospace;letter-spacing:.08em;col
   </section>
 
 </main>
+
+<!-- AIRLINES_INDEX:START -->
+<details class="airidx">
+  <summary data-i18n="air.head">Правила по авиакомпаниям</summary>
+  <p data-i18n="air.note">Отдельная страница на каждого перевозчика: габариты и вес по тарифам, какой типовой чемодан проходит, источник и дата проверки.</p>
+  <ul>
+    <li><a href="airlines/aegean-airlines.html">Aegean Airlines</a></li>
+    <li><a href="airlines/aeroflot.html">Aeroflot</a></li>
+    <li><a href="airlines/air-arabia.html">Air Arabia</a></li>
+    <li><a href="airlines/air-astana.html">Air Astana</a></li>
+    <li><a href="airlines/air-france.html">Air France</a></li>
+    <li><a href="airlines/asky-airlines.html">Asky Airlines</a></li>
+    <li><a href="airlines/avia-traffic-company.html">Avia Traffic Company</a></li>
+    <li><a href="airlines/azerbaijan-airlines-azal.html">Azerbaijan Airlines (AZAL)</a></li>
+    <li><a href="airlines/british-airways.html">British Airways</a></li>
+    <li><a href="airlines/easyjet.html">easyJet</a></li>
+    <li><a href="airlines/egyptair.html">EgyptAir</a></li>
+    <li><a href="airlines/emirates.html">Emirates</a></li>
+    <li><a href="airlines/etihad-airways.html">Etihad Airways</a></li>
+    <li><a href="airlines/finnair.html">Finnair</a></li>
+    <li><a href="airlines/flyarystan.html">FlyArystan</a></li>
+    <li><a href="airlines/flydubai.html">flydubai</a></li>
+    <li><a href="airlines/flynas.html">flynas</a></li>
+    <li><a href="airlines/georgian-airways.html">Georgian Airways</a></li>
+    <li><a href="airlines/iberia.html">Iberia</a></li>
+    <li><a href="airlines/indigo.html">IndiGo</a></li>
+    <li><a href="airlines/klm.html">KLM</a></li>
+    <li><a href="airlines/lufthansa.html">Lufthansa</a></li>
+    <li><a href="airlines/pegasus-airlines.html">Pegasus Airlines</a></li>
+    <li><a href="airlines/qatar-airways.html">Qatar Airways</a></li>
+    <li><a href="airlines/ryanair.html">Ryanair</a></li>
+    <li><a href="airlines/salamair.html">SalamAir</a></li>
+    <li><a href="airlines/tajik-air.html">Tajik Air</a></li>
+    <li><a href="airlines/turkish-airlines.html">Turkish Airlines</a></li>
+    <li><a href="airlines/ural-airlines.html">Ural Airlines</a></li>
+    <li><a href="airlines/wizz-air.html">Wizz Air</a></li>
+  </ul>
+</details>
+<!-- AIRLINES_INDEX:END -->
 
 <footer class="wrap">
   <p><span class="wm-badge">CHRK-Bishkek</span> — <span data-i18n="foot.1">инструмент собран вручную, данные правил проверены по сайтам авиакомпаний.</span> <span id="today"></span></p>
@@ -629,6 +678,11 @@ const I18N = {
                         en:"Flying with one of the airlines you selected? <a href=\"https://aviasales.tpx.li/w6JHGX0W\" target=\"_blank\" rel=\"sponsored noopener\">Compare fares on Aviasales</a>." },
   "foot.4":          { ru:"Исходный код открыт: github.com/iracarder/chrk-carryon. Нашёл у перевозчика другие нормы — правь массив AIRLINES и присылай пул-реквест.",
                        en:"Source is open: github.com/iracarder/chrk-carryon. Found different limits on an airline page? Edit the AIRLINES array and send a pull request." },
+
+  /* индекс страниц по авиакомпаниям */
+  "air.head":        { ru:"Правила по авиакомпаниям", en:"Rules by airline" },
+  "air.note":        { ru:"Отдельная страница на каждого перевозчика: габариты и вес по тарифам, какой типовой чемодан проходит, источник и дата проверки.",
+                       en:"A page per carrier: size and weight by fare, which standard suitcase fits, plus the source and the date it was checked." },
 
   /* рекомендация чемодана */
   "buy.why":         { ru:"Сумка не проходит у {bad} из {tot}. Если чемодан ещё не куплен — размер {dims} подходит у {good} из них по габаритам. Вес и правила по тарифу сверьте со своим билетом.",
